@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vende+</title>
+    <style>
+        :root {
+            --cor-primaria: #047FA5;
+            --cor-fundo: #ffffff;
+            --cor-texto: #333333;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            padding: 0.5rem;
+        }
+        header {
+            display: flex;
+            justify-content: space-between; /* Espaça os itens entre as extremidades */
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: var(--cor-primaria);
+            color: white;
+        }
+        header img { /* Estilos para a imagem do logotipo */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            height: 2.5rem;
+            max-width: 80%;
+        }
+        #cart-icon {
+            font-size: 1.8rem;
+            cursor: pointer;
+            position: relative; /* Necessário para posicionar o contador */
+        }
+        #cart-count {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 3px 7px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+        #filtros {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+            align-items: stretch;
+        }
+        #pesquisa {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        #filtro-categoria {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        #produtos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .produto {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        .produto img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+        .produto h3 {
+            font-size: 1rem;
+            margin-top: 0.3rem;
+            margin-bottom: 0.2rem;
+        }
+        .produto p {
+            font-size: 0.8rem;
+            margin: 0.1rem 0;
+        }
+        .produto button {
+            background-color: var(--cor-primaria);
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            margin-top: 0.3rem;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+        #carrinho {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 90%;
+            max-width: 350px;
+            height: 100%;
+            background: #fff;
+            border-left: 2px solid #ccc;
+            padding: 0.5rem;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        #carrinho.aberto {
+            right: 0;
+        }
+        #fechar-carrinho {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            float: right;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+        }
+        #itens-carrinho li {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.3rem 0;
+            font-size: 0.9rem;
+        }
+        .remover-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            padding: 0 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+        #total {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            text-align: right;
+        }
+        #dados-cliente {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-top: 1px solid #eee;
+        }
+        #dados-cliente h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        #dados-cliente label {
+            display: block;
+            margin-bottom: 0.2rem;
+            font-size: 0.8rem;
+            color: #777;
+        }
+        #dados-cliente input[type="text"],
+        #dados-cliente textarea {
+            width: 100%;
+            padding: 0.3rem;
+            margin-bottom: 0.3rem;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+        #dados-cliente button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 0.5rem 0.8rem;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Media Query para telas menores (até 600px de largura) */
+        @media (max-width: 600px) {
+            #filtros {
+                flex-direction: column;
+            }
+            #produtos {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+
+        /* Media Query para telas um pouco maiores (acima de 600px) */
+        @media (min-width: 601px) {
+            #filtros {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+    </style>
+    <script>
+        let produtos = [];
+        let carrinho = [];
+
+        async function carregarProdutos() {
+            const resposta = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ4TyyeDAkYFs8E6yhi625p3a9P7FoPZSEzKpEd70k7dYbeB4N4QLoVhKTdXH-a63xI0tpI7nO6DyE0/pub?output=csv');
+            const texto = await resposta.text();
+            const linhas = texto.trim().split('\n').slice(1);
+            const categorias = new Set();
+            produtos = linhas.map(l => {
+                const [nome, preco, stock, imagem, categoria] = l.split(',');
+                categorias.add(categoria.trim());
+                return { nome: nome.trim(), preco: parseFloat(preco), stock: parseInt(stock), imagem: imagem.trim(), categoria: categoria.trim() };
+            });
+            filtrarCategorias([...categorias]);
+            exibirProdutos(produtos);
+        }
+
+        function exibirProdutos(lista) {
+            const div = document.getElementById('produtos');
+            div.innerHTML = '';
+            lista.forEach((p, i) => {
+                div.innerHTML += `
+                    <div class="produto">
+                        <img src="${p.imagem}" alt="${p.nome}" />
+                        <h3>${p.nome}</h3>
+                        <p>${p.preco.toFixed(2)} MZN</p>
+                        <p>Stock: ${p.stock}</p>
+                        <button onclick="adicionarCarrinho(${i})">Adicionar</button>
+                    </div>`;
+            });
+        }
+
+        function filtrarCategorias(categorias) {
+            const filtroCategoria = document.getElementById('filtro-categoria');
+            filtroCategoria.innerHTML = `<option value="tudo">Todas Categorias</option>` + categorias.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+        }
+
+        function aplicarFiltros() {
+            const filtroCategoriaValor = document.getElementById('filtro-categoria').value;
+            const pesquisaValor = document.getElementById('pesquisa').value.toLowerCase();
+
+            const listaFiltrada = produtos.filter(p => {
+                const categoriaMatch = filtroCategoriaValor === 'tudo' || p.categoria === filtroCategoriaValor;
+                const pesquisaMatch = p.nome.toLowerCase().includes(pesquisaValor);
+                return categoriaMatch && pesquisaMatch;
+            });
+            exibirProdutos(listaFiltrada);
+        }
+
+        function adicionarCarrinho(index) {
+            const prod = produtos.slice()[index]; // Cria uma cópia para evitar modificar a original diretamente
+            if (prod.stock <= 0) return alert('Produto sem stock!');
+            prod.stock--;
+            carrinho.push({...prod}); // Adiciona uma cópia ao carrinho
+            exibirProdutos(produtos);
+            atualizarCarrinho();
+        }
+
+        function atualizarCarrinho() {
+            const lista = document.getElementById('itens-carrinho');
+            const total = document.getElementById('total');
+            const contador = document.getElementById('cart-count');
+            lista.innerHTML = '';
+            let totalValor = 0;
+            carrinho.forEach((item, idx) => {
+                totalValor += item.preco;
+                lista.innerHTML += `<li>${item.nome} - ${item.preco.toFixed(2)} MZN <button class='remover-btn' onclick='removerProduto(${idx})'>x</button></li>`;
+            });
+            total.textContent = `Total: ${totalValor.toFixed(2)} MZN`;
+            contador.textContent = carrinho.length;
+        }
+
+        function removerProduto(idx) {
+            const prod = carrinho.splice(idx, 1)[0]; // Remove do carrinho e obtém o produto removido
+            // Precisamos encontrar o produto original na lista de produtos e incrementar o stock
+            const originalProdIndex = produtos.findIndex(p => p.nome === prod.nome);
+            if (originalProdIndex !== -1) {
+                produtos[originalProdIndex].stock++;
+            }
+            atualizarCarrinho();
+            exibirProdutos(produtos);
+        }
+
+        function finalizarPedido() {
+            if (!carrinho.length) return alert('Carrinho vazio!');
+            const nomeCliente = document.getElementById('nome-cliente').value.trim();
+            const telefoneCliente = document.getElementById('telefone-cliente').value.trim();
+            const moradaCliente = document.getElementById('morada-cliente').value.trim();
+
+            if (!nomeCliente || !telefoneCliente || !moradaCliente) {
+                alert('Por favor, preencha todos os seus dados para finalizar o pedido.');
+                return;
+            }
+
+            const produtosPedido = carrinho.map(p => `• ${p.nome} - ${p.preco.toFixed(2)} MZN`).join('%0A');
+            const total = carrinho.reduce((s, p) => s + p.preco, 0).toFixed(2);
+            const mensagem = `Pedido:%0A${produtosPedido}%0ATotal: ${total} MZN%0A%0ADados do Cliente:%0ANome: ${nomeCliente}%0ATelefone: ${telefoneCliente}%0AMorada: ${moradaCliente}`;
+            const link = `https://wa.me/258846342251?text=${mensagem}`;
+            window.open(link, '_blank');
+        }
+
+        function alternarCarrinho() {
+            document.getElementById('carrinho').classList.toggle('aberto');
+        }
+
+        window.onload = carregarProdutos;
+    </script>
+</head>
+<body>
+    <header>
+        <img src="https://static.wixstatic.com/media/819ea0_3133e75be3bf4aa4a1c0d8c889133f84~mv2.png" alt="Vende+" style="display: block; margin-left: auto; margin-right: auto; height: 2.5rem; max-width: 80%;" />
+        <div style="position: relative;">
+            <span id="cart-icon" onclick="alternarCarrinho()">🛒</span>
+            <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <div id="filtros">
+        <input type="text" id="pesquisa" placeholder="Pesquisar produto..." oninput="aplicarFiltros()" />
+        <select id="filtro-categoria" onchange="aplicarFiltros()">
+            <option value="tudo">Todas Categorias</option>
+        </select>
+    </div>
+
+    <div id="produtos"></div>
+
+    <div id="carrinho">
+        <button id="fechar-carrinho" onclick="alternarCarrinho()">✖</button>
+        <h2>🛒 Carrinho</h2>
+        <ul id="itens-carrinho"></ul>
+        <p id="total">Total: 0.00 MZN</p>
+
+        <div id="dados-cliente">
+            <h3>Seus Dados</h3>
+            <label for="nome-cliente">Nome:</label>
+            <input type="text" id="nome-cliente" placeholder="Seu nome" />
+            <label for="telefone-cliente">Telefone:</label>
+            <input type="text" id="telefone-cliente" placeholder="Seu telefone" />
+            <label for="morada-cliente">Morada:</label>
+            <textarea id="morada-cliente" placeholder="Sua morada"></textarea>
+            <button onclick="finalizarPedido()">Finalizar Pedido</button>
+        </div>
+    </div>
+</body>
+</html>
