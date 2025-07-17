@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <title>Loja Vende+ | Sobre Nós</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      padding-top: 64px; /* Altura do header */
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+
+  <!-- Header -->
+  <header id="main-header" class="bg-white shadow-md fixed top-0 left-0 right-0 z-30">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex-shrink-0">
+                <a href="index.html" class="text-2xl font-bold text-indigo-600">Vende+</a>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Produtos</a>
+                <a href="sobre.html" class="font-semibold text-indigo-600 border-b-2 border-indigo-600 pb-1">Sobre Nós</a>
+                <a href="contactos.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Contactos</a>
+            </nav>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 hover:text-indigo-600 focus:outline-none">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
+        <nav class="flex flex-col items-center space-y-4 py-4">
+            <a href="index.html" class="text-gray-600 hover:text-indigo-600">Produtos</a>
+            <a href="sobre.html" class="font-semibold text-indigo-600">Sobre Nós</a>
+            <a href="contactos.html" class="text-gray-600 hover:text-indigo-600">Contactos</a>
+        </nav>
+    </div>
+  </header>
+
+  <!-- Conteúdo da Página -->
+  <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="bg-white rounded-xl shadow-md p-8">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Sobre a Vende+</h1>
+        <p class="text-lg text-gray-600 leading-relaxed mb-6">
+            Bem-vindo à Vende+! Somos uma loja apaixonada por oferecer produtos de alta qualidade com um serviço excecional. A nossa missão é facilitar a sua vida, trazendo os melhores itens diretamente para a sua porta.
+        </p>
+        <div class="prose prose-lg max-w-none text-gray-700">
+            <p>
+                A nossa jornada começou com uma ideia simples: criar uma experiência de compra online que fosse não apenas conveniente, mas também confiável e agradável. Cada produto no nosso catálogo é cuidadosamente selecionado para garantir que atende aos nossos rigorosos padrões de qualidade.
+            </p>
+            <p>
+                Acreditamos no poder da tecnologia para conectar pessoas a produtos que amam. É por isso que investimos numa plataforma fácil de usar, um processo de pedido simplificado e um atendimento ao cliente que está sempre pronto para ajudar.
+            </p>
+            <h2 class="text-2xl font-bold text-gray-800 mt-8 mb-4">A Nossa Equipa</h2>
+            <p>
+                Somos uma equipa de entusiastas, dedicados a encontrar as melhores soluções para os nossos clientes. Valorizamos a transparência, a honestidade e, acima de tudo, a sua satisfação.
+            </p>
+        </div>
+    </div>
+  </main>
+
+  <script>
+    // Lógica do menu mobile
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+
+</body>
+</html>
