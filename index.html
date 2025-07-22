@@ -365,24 +365,23 @@
         const total = carrinho.reduce((sum, item) => sum + item.preco * item.quantidade, 0);
         const totalItens = carrinho.reduce((sum, item) => sum + item.quantidade, 0);
         
-        const carrinhoHTML = gerarHTMLCarrinho(total);
-        
         // Desktop
         const carrinhoContainer = document.getElementById('carrinho-container');
-        carrinhoContainer.innerHTML = carrinhoHTML;
+        carrinhoContainer.innerHTML = gerarHTMLCarrinho(total, 'desktop');
 
         // Mobile
         const mobileCartContent = document.getElementById('mobile-cart-content');
-        mobileCartContent.innerHTML = carrinhoHTML;
+        mobileCartContent.innerHTML = gerarHTMLCarrinho(total, 'mobile');
         document.getElementById('mobile-cart-count').innerText = totalItens;
     }
 
     /**
      * Gera o HTML interno para a área do carrinho.
      * @param {number} total - O valor total do carrinho.
+     * @param {string} context - O contexto para gerar IDs únicos ('desktop' ou 'mobile').
      * @returns {string} O HTML do carrinho.
      */
-    function gerarHTMLCarrinho(total) {
+    function gerarHTMLCarrinho(total, context) {
         let listaItensHTML = '';
         if (carrinho.length === 0) {
             listaItensHTML = '<p class="text-center text-gray-500 my-10">Seu carrinho está vazio.</p>';
@@ -414,10 +413,10 @@
             </div>
             <h3 class="text-xl font-bold mb-4">Detalhes da Entrega</h3>
             <div class="space-y-4">
-                <input type="text" id="nomeCliente" placeholder="Seu nome completo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                <input type="tel" id="telefoneCliente" placeholder="Seu telefone (ex: 841234567)" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                <input type="text" id="moradaCliente" placeholder="Sua morada" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                <button onclick="enviarPedido()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
+                <input type="text" id="${context}-nomeCliente" placeholder="Seu nome completo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                <input type="tel" id="${context}-telefoneCliente" placeholder="Seu telefone (ex: 841234567)" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                <input type="text" id="${context}-moradaCliente" placeholder="Sua morada" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                <button onclick="enviarPedido('${context}')" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
                     <i class="fab fa-whatsapp"></i>
                     <span>Finalizar pedido no WhatsApp</span>
                 </button>
@@ -442,11 +441,12 @@
 
     /**
      * Envia o pedido formatado para o WhatsApp.
+     * @param {string} context - O contexto de onde a função foi chamada ('desktop' ou 'mobile').
      */
-    function enviarPedido() {
-        const nome = document.getElementById('nomeCliente').value.trim();
-        const telefone = document.getElementById('telefoneCliente').value.trim();
-        const morada = document.getElementById('moradaCliente').value.trim();
+    function enviarPedido(context) {
+        const nome = document.getElementById(`${context}-nomeCliente`).value.trim();
+        const telefone = document.getElementById(`${context}-telefoneCliente`).value.trim();
+        const morada = document.getElementById(`${context}-moradaCliente`).value.trim();
 
         if (!nome || !telefone || !morada) {
             mostrarToast("Por favor, preencha todos os campos da entrega.", "error");
