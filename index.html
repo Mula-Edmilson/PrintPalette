@@ -4,61 +4,227 @@
   <meta charset="UTF-8">
   <title>Loja Vende+ | Produtos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    /* Estilos personalizados */
     body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f8fafc; /* cinza claro do tailwind */
+        font-family: 'Inter', sans-serif;
+        background-color: #121212; /* Preto profundo */
+        color: #f5f5f5; /* Branco suave */
+        padding-top: 64px; /* Altura do header fixo */
     }
-    /* Animação para o toast/notificação */
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0; transform: translateY(20px); }
-      10%, 90% { opacity: 1; transform: translateY(0); }
+
+    /* Estilo para o header com efeito glassmorphism */
+    #main-header {
+        background-color: rgba(25, 25, 25, 0.8); /* Preto quase transparente */
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .toast-animation {
-      animation: fadeInOut 4s ease-in-out forwards;
+
+    #main-header a {
+        color: #e0e0e0; /* Cinza claro */
     }
-    /* Esconder a barra de rolagem do container de categorias */
-    #categorias::-webkit-scrollbar {
-        display: none;
+
+    #main-header .text-indigo-600,
+    #main-header .hover:text-indigo-600 {
+        color: #fdd835; /* Dourado para destaque */
     }
-    #categorias {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+
+    #mobile-menu {
+        background-color: rgba(25, 25, 25, 0.9);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
-    /* Adiciona padding ao topo do body para não ficar atrás do header fixo */
-    body {
-        padding-top: 64px; /* Altura do header */
+
+    /* Estilo para a seção de herói com vídeo e overlay glassmorphism */
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.6); /* Overlay mais escuro */
+        z-index: 1;
     }
-  </style>
+
+    .hero-section .z-10 {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-section a {
+        background-color: rgba(25, 25, 25, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid #fdd835;
+        color: #fdd835;
+    }
+
+    .hero-section a:hover {
+        background-color: rgba(25, 25, 25, 0.9);
+    }
+
+    /* Estilo para o catálogo */
+    .bg-white {
+        background-color: rgba(30, 30, 30, 0.8); /* Cinza escuro transparente */
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        color: #e0e0e0;
+    }
+
+    input,
+    select {
+        background-color: rgba(40, 40, 40, 0.7);
+        color: #e0e0e0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    input:focus,
+    select:focus {
+        border-color: #fdd835;
+        box-shadow: 0 0 0 0.2rem rgba(253, 216, 53, 0.25);
+    }
+
+    label {
+        color: #e0e0e0;
+    }
+
+    .categoria-btn {
+        background-color: rgba(40, 40, 40, 0.7);
+        color: #e0e0e0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .categoria-btn.bg-indigo-600,
+    .categoria-btn:hover {
+        background-color: #fdd835;
+        color: #212121;
+        border-color: #fdd835;
+    }
+
+    .produto-card {
+        background-color: rgba(30, 30, 30, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .produto-card h3,
+    .produto-card p {
+        color: #e0e0e0;
+    }
+
+    .produto-card .text-indigo-600 {
+        color: #fdd835;
+    }
+
+    .produto-card button {
+        background-color: #374151; /* Cinza mais claro para botões */
+        color: #e0e0e0;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .produto-card button:hover {
+        background-color: #4b5563;
+    }
+
+    .produto-card button.bg-green-500 {
+        background-color: #81c784;
+        color: #212121;
+    }
+
+    .produto-card button.bg-green-500:hover {
+        background-color: #a5d6a7;
+    }
+
+    .produto-card button.bg-indigo-600 {
+        background-color: #fdd835;
+        color: #212121;
+    }
+
+    .produto-card button.bg-indigo-600:hover {
+        background-color: #ffe082;
+    }
+
+    #carrinho-container,
+    #mobile-cart-content {
+        background-color: rgba(30, 30, 30, 0.9);
+        backdrop-filter: blur(10px);
+        border-left: 1px solid rgba(255, 255, 255, 0.05);
+        color: #e0e0e0;
+    }
+
+    #carrinho-container h2,
+    #mobile-cart-content h2 {
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    #carrinho-container .border-b,
+    #mobile-cart-content .border-b {
+        border-bottom-color: rgba(255, 255, 255, 0.05);
+    }
+
+    #carrinho-container button,
+    #mobile-cart-content button {
+        background-color: #374151;
+        color: #e0e0e0;
+    }
+
+    #carrinho-container button:hover,
+    #mobile-cart-content button:hover {
+        background-color: #4b5563;
+    }
+
+    #carrinho-container .text-indigo-600,
+    #mobile-cart-content .text-indigo-600 {
+        color: #fdd835;
+    }
+
+    #mobile-cart-modal {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    #toast-container .bg-gray-800 {
+        background-color: rgba(40, 40, 40, 0.9);
+        color: #e0e0e0;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    #toast-container .bg-red-500 {
+        background-color: rgba(150, 0, 0, 0.9);
+        color: #e0e0e0;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    footer {
+        background-color: #212121;
+        color: #bdbdbd;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    footer a {
+        color: #bdbdbd;
+    }
+
+    footer a:hover {
+        color: #fdd835;
+    }
+</style>
 </head>
 <body class="text-gray-800">
 
-  <!-- Header -->
   <header id="main-header" class="bg-white shadow-md fixed top-0 left-0 right-0 z-30">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-            <!-- Logo -->
             <div class="flex-shrink-0">
                 <a href="index.html" class="text-2xl font-bold text-indigo-600">Vende+</a>
             </div>
-
-            <!-- Navegação Desktop -->
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="index.html" class="font-semibold text-indigo-600 border-b-2 border-indigo-600 pb-1">Produtos</a>
                 <a href="sobre.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Sobre Nós</a>
                 <a href="contactos.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Contactos</a>
             </nav>
-
-            <!-- Botão Hamburger (Mobile) -->
             <div class="md:hidden">
                 <button id="mobile-menu-button" class="text-gray-600 hover:text-indigo-600 focus:outline-none">
                     <i class="fas fa-bars fa-lg"></i>
@@ -66,7 +232,6 @@
             </div>
         </div>
     </div>
-    <!-- Menu Mobile -->
     <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
         <nav class="flex flex-col items-center space-y-4 py-4">
             <a href="index.html" class="font-semibold text-indigo-600">Produtos</a>
@@ -76,17 +241,28 @@
     </div>
   </header>
 
-  <!-- Container Principal -->
-  <div class="flex flex-col lg:flex-row container mx-auto">
+  <section class="hero-section relative h-[60vh] flex items-center justify-center text-white text-center overflow-hidden">
+    <video autoplay loop muted playsinline class="absolute top-1/2 left-1/2 w-full h-full object-cover transform -translate-x-1/2 -translate-y-1/2 z-0">
+        <source src="https://video.wixstatic.com/video/35b7f9_2e0db749df574b7a820ef12613dfcae4/720p/mp4/file.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+        </video>
+    <div class="z-10 p-4">
+        <h1 class="text-4xl md:text-6xl font-bold drop-shadow-lg">A Qualidade que Você Merece</h1>
+        <p class="mt-4 text-lg md:text-xl max-w-2xl mx-auto drop-shadow-md">Produtos selecionados para transformar o seu dia a dia.</p>
+        <a href="#catalogo" class="mt-8 inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform hover:scale-105">
+            Explorar Produtos
+        </a>
+    </div>
+  </section>
 
-    <!-- Conteúdo Principal (Produtos e Filtros) -->
+  <div id="catalogo" class="flex flex-col lg:flex-row container mx-auto">
+
     <main class="w-full lg:w-2/3 xl:w-3/4 p-4 sm:p-6 lg:p-8">
       <header class="mb-6">
-        <h1 class="text-4xl font-bold text-gray-900">Nossos Produtos</h1>
+        <h2 class="text-4xl font-bold text-gray-300">Nossos Produtos</h2>
         <p class="text-gray-600 mt-1">Explore nosso catálogo completo.</p>
       </header>
 
-      <!-- Filtros -->
       <div id="filtros-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 p-4 bg-white rounded-xl shadow-sm">
         <input type="text" id="pesquisa" placeholder="Pesquisar por nome..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" oninput="renderizarProdutos()">
         <select id="ordenar" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" onchange="renderizarProdutos()">
@@ -100,14 +276,10 @@
         </label>
       </div>
 
-      <!-- Categorias -->
       <div id="categorias" class="flex items-center space-x-2 overflow-x-auto pb-4 mb-6">
-        <!-- Botões de categoria serão inseridos aqui -->
-      </div>
+        </div>
 
-      <!-- Loja (Grid de Produtos) -->
       <div id="loja" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <!-- Indicador de Carregamento -->
         <div id="loading-indicator" class="col-span-full text-center py-10">
             <i class="fas fa-spinner fa-spin fa-3x text-indigo-500"></i>
             <p class="mt-4 text-gray-600">A carregar produtos...</p>
@@ -115,28 +287,42 @@
       </div>
     </main>
 
-    <!-- Carrinho de Compras (Barra Lateral) -->
     <aside id="carrinho-container" class="w-full lg:w-1/3 xl:w-1/4 bg-white border-l border-gray-200 p-6 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto hidden lg:block">
-        <!-- Conteúdo do carrinho será inserido aqui -->
-    </aside>
+        </aside>
   </div>
 
-  <!-- Botão Flutuante do Carrinho (Mobile) -->
   <button id="mobile-cart-button" onclick="toggleMobileCart()" class="lg:hidden fixed bottom-6 right-6 bg-indigo-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl z-40">
       <i class="fas fa-shopping-cart"></i>
       <span id="mobile-cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">0</span>
   </button>
   
-  <!-- Modal do Carrinho (Mobile) -->
   <div id="mobile-cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden" onclick="toggleMobileCart()">
       <div id="mobile-cart-content" class="absolute bottom-0 left-0 right-0 bg-white p-6 rounded-t-2xl max-h-[80vh] overflow-y-auto" onclick="event.stopPropagation()">
-           <!-- Conteúdo do carrinho será inserido aqui para mobile -->
-      </div>
+           </div>
   </div>
 
-
-  <!-- Container para Notificações (Toast) -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50"></div>
+  
+  <footer class="bg-gray-800 text-white mt-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+            <div class="mb-4 md:mb-0">
+                <h3 class="text-2xl font-bold">Vende+</h3>
+                <p class="text-gray-400">© 2025 Vende+. Todos os direitos reservados.</p>
+            </div>
+            <nav class="flex space-x-6 mb-4 md:mb-0">
+                <a href="index.html" class="hover:text-indigo-400 transition-colors">Produtos</a>
+                <a href="sobre.html" class="hover:text-indigo-400 transition-colors">Sobre Nós</a>
+                <a href="contactos.html" class="hover:text-indigo-400 transition-colors">Contactos</a>
+            </nav>
+            <div class="flex space-x-4">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-facebook-f fa-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram fa-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-whatsapp fa-lg"></i></a>
+            </div>
+        </div>
+    </div>
+  </footer>
 
   <script>
     // --- LÓGICA DO HEADER ---
@@ -145,7 +331,6 @@
     mobileMenuButton.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
     });
-
 
     // --- CONFIGURAÇÃO ---
     const URL_SHEET = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6oL6e1nGnPBuBAdKaNre8thqvrtnEp-ld37t2Xe94BQYSXuhxSARO7J-jqRcD-T3JybiFH2E2d33q/pub?output=csv";
@@ -164,7 +349,6 @@
      */
     async function carregarProdutos() {
         const loadingIndicator = document.getElementById('loading-indicator');
-        // Apenas tenta mostrar o loader se ele existir no DOM
         if (loadingIndicator) {
             loadingIndicator.style.display = 'block';
         }
@@ -175,12 +359,12 @@
             
             const csv = await res.text();
             const linhas = csv.split("\n").filter(l => l.trim());
-            const cabecalho = linhas.shift(); // Remove o cabeçalho
+            linhas.shift(); // Remove o cabeçalho
             
             produtos = linhas.map((linha, index) => {
                 const dados = linha.split(",").map(d => d.trim());
                 return {
-                    id: index, // Adiciona um ID único para cada produto
+                    id: index,
                     nome: dados[0] || 'Produto sem nome',
                     preco: parseFloat(dados[1]) || 0,
                     stock: parseInt(dados[2]) || 0,
@@ -190,20 +374,22 @@
             });
             
             mostrarCategorias();
-            renderizarProdutos(); // Esta função irá substituir o loader pelos produtos
+            renderizarProdutos();
             actualizarCarrinhoCompleto();
 
         } catch (error) {
             console.error("Falha ao carregar produtos:", error);
             document.getElementById('loja').innerHTML = `<p class="col-span-full text-center text-red-500">Não foi possível carregar os produtos. Tente novamente mais tarde.</p>`;
+        } finally {
+            // Ensure loading indicator is hidden even if there's an error
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
         }
     }
 
     // --- RENDERIZAÇÃO E DOM ---
 
-    /**
-     * Cria e exibe os botões de categoria.
-     */
     function mostrarCategorias() {
         const container = document.getElementById("categorias");
         const categoriasSet = new Set(produtos.map(p => p.categoria));
@@ -221,22 +407,15 @@
         }).join("");
     }
 
-    /**
-     * Filtra os produtos pela categoria selecionada.
-     * @param {string} cat - A categoria para filtrar.
-     */
     function filtrarCategoria(cat) {
         categoriaAtual = cat;
-        mostrarCategorias(); // Re-renderiza para atualizar o estado 'active'
+        mostrarCategorias();
         renderizarProdutos();
     }
 
-    /**
-     * Renderiza a lista de produtos na loja com base nos filtros atuais.
-     */
     function renderizarProdutos() {
         const loja = document.getElementById('loja');
-        loja.innerHTML = ''; // Limpa a loja antes de renderizar
+        loja.innerHTML = ''; 
 
         const termo = document.getElementById('pesquisa').value.toLowerCase();
         const ordenar = document.getElementById('ordenar').value;
@@ -256,18 +435,13 @@
             loja.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">Nenhum produto encontrado com os filtros selecionados.</p>`;
             return;
         }
-
+        
         listaFiltrada.forEach(p => {
             const produtoCard = criarCardProduto(p);
             loja.appendChild(produtoCard);
         });
     }
 
-    /**
-     * Cria o elemento HTML para um único produto.
-     * @param {object} produto - O objeto do produto.
-     * @returns {HTMLElement} O elemento div do card do produto.
-     */
     function criarCardProduto(produto) {
         const div = document.createElement('div');
         div.className = 'produto-card bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:scale-105 flex flex-col';
@@ -297,25 +471,22 @@
         return div;
     }
 
-
     // --- LÓGICA DO CARRINHO ---
 
-    /**
-     * Adiciona um produto ao carrinho.
-     * @param {number} produtoId - O ID do produto a ser adicionado.
-     */
     function adicionarAoCarrinho(produtoId) {
         const produto = produtos.find(p => p.id === produtoId);
-        if (!produto || produto.stock <= 0) {
+        if (!produto) return;
+        
+        const itemCarrinho = carrinho.find(item => item.id === produtoId);
+        const stockDisponivel = produto.stock - (itemCarrinho ? itemCarrinho.quantidade : 0);
+
+        if (stockDisponivel <= 0) {
             mostrarToast("Este produto está esgotado.", "error");
             return;
         }
 
-        produto.stock--;
-        const itemExistente = carrinho.find(item => item.id === produtoId);
-
-        if (itemExistente) {
-            itemExistente.quantidade++;
+        if (itemCarrinho) {
+            itemCarrinho.quantidade++;
         } else {
             carrinho.push({ id: produto.id, nome: produto.nome, preco: produto.preco, quantidade: 1 });
         }
@@ -326,24 +497,16 @@
         mostrarToast(`${produto.nome} foi adicionado ao carrinho!`);
     }
 
-    /**
-     * Remove um item do carrinho ou diminui sua quantidade.
-     * @param {number} produtoId - O ID do produto.
-     * @param {boolean} removerTudo - Se true, remove todas as unidades do item.
-     */
     function removerDoCarrinho(produtoId, removerTudo = false) {
         const itemIndex = carrinho.findIndex(item => item.id === produtoId);
         if (itemIndex === -1) return;
 
         const itemCarrinho = carrinho[itemIndex];
-        const produtoOriginal = produtos.find(p => p.id === produtoId);
-
+        
         if (removerTudo || itemCarrinho.quantidade === 1) {
-            if (produtoOriginal) produtoOriginal.stock += itemCarrinho.quantidade;
             carrinho.splice(itemIndex, 1);
         } else {
             itemCarrinho.quantidade--;
-            if (produtoOriginal) produtoOriginal.stock++;
         }
         
         salvarCarrinho();
@@ -351,36 +514,22 @@
         actualizarCardProduto(produtoId);
     }
     
-    /**
-     * Salva o estado atual do carrinho no localStorage.
-     */
     function salvarCarrinho() {
         localStorage.setItem('carrinhoVendeMais', JSON.stringify(carrinho));
     }
 
-    /**
-     * Atualiza a exibição do carrinho (desktop e mobile).
-     */
     function actualizarCarrinhoCompleto() {
         const total = carrinho.reduce((sum, item) => sum + item.preco * item.quantidade, 0);
         const totalItens = carrinho.reduce((sum, item) => sum + item.quantidade, 0);
         
-        // Desktop
         const carrinhoContainer = document.getElementById('carrinho-container');
         carrinhoContainer.innerHTML = gerarHTMLCarrinho(total, 'desktop');
 
-        // Mobile
         const mobileCartContent = document.getElementById('mobile-cart-content');
         mobileCartContent.innerHTML = gerarHTMLCarrinho(total, 'mobile');
         document.getElementById('mobile-cart-count').innerText = totalItens;
     }
 
-    /**
-     * Gera o HTML interno para a área do carrinho.
-     * @param {number} total - O valor total do carrinho.
-     * @param {string} context - O contexto para gerar IDs únicos ('desktop' ou 'mobile').
-     * @returns {string} O HTML do carrinho.
-     */
     function gerarHTMLCarrinho(total, context) {
         let listaItensHTML = '';
         if (carrinho.length === 0) {
@@ -424,25 +573,49 @@
         `;
     }
 
-    /**
-     * Atualiza a aparência de um card de produto específico.
-     * @param {number} produtoId - O ID do produto a ser atualizado.
-     */
     function actualizarCardProduto(produtoId) {
         const produto = produtos.find(p => p.id === produtoId);
-        const card = document.querySelector(`.produto-card button[id='btn-add-${produtoId}']`)?.closest('.produto-card');
+        const itemCarrinho = carrinho.find(item => item.id === produtoId);
+        const stockReal = produto.stock;
+        
+        const card = document.querySelector(`#btn-add-${produtoId}`)?.closest('.produto-card');
         if (card) {
-            const novoCard = criarCardProduto(produto);
-            card.replaceWith(novoCard);
+            const stockDisponivel = stockReal - (itemCarrinho ? itemCarrinho.quantidade : 0);
+            
+            const stockElement = card.querySelector('p.text-sm.text-gray-500');
+            stockElement.textContent = `Stock: ${stockDisponivel}`;
+            
+            const button = card.querySelector('button');
+            const buttonIcon = button.querySelector('i');
+
+            if (stockDisponivel <= 0) {
+                button.disabled = true;
+                button.className = 'w-full text-white font-bold py-2 px-4 rounded-lg transition-colors bg-gray-400 cursor-not-allowed';
+                buttonIcon.className = 'fas fa-times-circle mr-2';
+                button.lastChild.textContent = ' Esgotado';
+                // Adiciona o selo de esgotado se não existir
+                if (!card.querySelector('.absolute.top-0')) {
+                    const esgotadoDiv = document.createElement('div');
+                    esgotadoDiv.className = 'absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-br-lg';
+                    esgotadoDiv.textContent = 'ESGOTADO';
+                    card.querySelector('.relative').prepend(esgotadoDiv);
+                }
+            } else {
+                 if (itemCarrinho) {
+                    button.className = 'w-full text-white font-bold py-2 px-4 rounded-lg transition-colors bg-green-500 hover:bg-green-600';
+                    buttonIcon.className = 'fas fa-check mr-2';
+                    button.lastChild.textContent = ' Adicionado';
+                } else {
+                    button.className = 'w-full text-white font-bold py-2 px-4 rounded-lg transition-colors bg-indigo-600 hover:bg-indigo-700';
+                    buttonIcon.className = 'fas fa-cart-plus mr-2';
+                    button.lastChild.textContent = ' Adicionar';
+                }
+            }
         }
     }
 
     // --- AÇÕES DO USUÁRIO ---
 
-    /**
-     * Envia o pedido formatado para o WhatsApp.
-     * @param {string} context - O contexto de onde a função foi chamada ('desktop' ou 'mobile').
-     */
     function enviarPedido(context) {
         const nome = document.getElementById(`${context}-nomeCliente`).value.trim();
         const telefone = document.getElementById(`${context}-telefoneCliente`).value.trim();
@@ -471,20 +644,25 @@
 
         const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
         window.open(url, '_blank');
-
-        // Limpa o carrinho após enviar
+        
+        // Limpar campos de formulário
+        document.getElementById(`${context}-nomeCliente`).value = '';
+        document.getElementById(`${context}-telefoneCliente`).value = '';
+        document.getElementById(`${context}-moradaCliente`).value = '';
+        
+        // Resetar o carrinho e a UI
+        carrinho.forEach(item => {
+           const p = produtos.find(prod => prod.id === item.id);
+           if(p) p.stock += item.quantidade; 
+        });
+        
         carrinho = [];
         salvarCarrinho();
-        // Recarrega os produtos para resetar o stock na visualização
-        carregarProdutos(); 
-        mostrarToast("Pedido enviado! Limpando o carrinho...", "success");
+        actualizarCarrinhoCompleto();
+        renderizarProdutos(); // Re-renderiza todos os produtos para mostrar o stock atualizado
+        mostrarToast("Pedido enviado! O carrinho foi limpo.", "success");
     }
 
-    /**
-     * Exibe uma notificação toast.
-     * @param {string} message - A mensagem a ser exibida.
-     * @param {string} type - O tipo de toast ('success', 'error', 'info').
-     */
     function mostrarToast(message, type = 'success') {
         const container = document.getElementById('toast-container');
         const toast = document.createElement('div');
@@ -497,14 +675,10 @@
         setTimeout(() => toast.remove(), 4000);
     }
     
-    /**
-     * Alterna a visibilidade do carrinho em dispositivos móveis.
-     */
     function toggleMobileCart() {
         const modal = document.getElementById('mobile-cart-modal');
         modal.classList.toggle('hidden');
     }
-
   </script>
 </body>
 </html>
