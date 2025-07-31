@@ -11,34 +11,27 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     body {
-        font-family: 'Inter', sans-serif;
-        background-color: #121212; /* Preto profundo */
-        color: #f5f5f5; /* Branco suave */
-        padding-top: 64px; /* Altura do header fixo */
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc; /* cinza claro do tailwind */
+      padding-top: 64px; /* Altura do header fixo */
     }
-
-    /* Estilo para o header com efeito glassmorphism */
-    #main-header {
-        background-color: rgba(25, 25, 25, 0.8); /* Preto quase transparente */
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /* Animação para o toast/notificação */
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; transform: translateY(20px); }
+      10%, 90% { opacity: 1; transform: translateY(0); }
     }
-
-    #main-header a {
-        color: #e0e0e0; /* Cinza claro */
+    .toast-animation {
+      animation: fadeInOut 4s ease-in-out forwards;
     }
-
-    #main-header .text-indigo-600,
-    #main-header .hover:text-indigo-600 {
-        color: #fdd835; /* Dourado para destaque */
+    /* Esconder a barra de rolagem do container de categorias */
+    #categorias::-webkit-scrollbar {
+        display: none;
     }
-
-    #mobile-menu {
-        background-color: rgba(25, 25, 25, 0.9);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    #categorias {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
-
-    /* Estilo para a seção de herói com vídeo e overlay glassmorphism */
+    /* Estilo para a secção de herói com vídeo */
     .hero-section::before {
         content: '';
         position: absolute;
@@ -46,171 +39,10 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(0, 0, 0, 0.6); /* Overlay mais escuro */
+        background-color: rgba(0, 0, 0, 0.5); /* Overlay escuro */
         z-index: 1;
     }
-
-    .hero-section .z-10 {
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .hero-section a {
-        background-color: rgba(25, 25, 25, 0.7);
-        backdrop-filter: blur(10px);
-        border: 1px solid #fdd835;
-        color: #fdd835;
-    }
-
-    .hero-section a:hover {
-        background-color: rgba(25, 25, 25, 0.9);
-    }
-
-    /* Estilo para o catálogo */
-    .bg-white {
-        background-color: rgba(30, 30, 30, 0.8); /* Cinza escuro transparente */
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        color: #e0e0e0;
-    }
-
-    input,
-    select {
-        background-color: rgba(40, 40, 40, 0.7);
-        color: #e0e0e0;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    input:focus,
-    select:focus {
-        border-color: #fdd835;
-        box-shadow: 0 0 0 0.2rem rgba(253, 216, 53, 0.25);
-    }
-
-    label {
-        color: #e0e0e0;
-    }
-
-    .categoria-btn {
-        background-color: rgba(40, 40, 40, 0.7);
-        color: #e0e0e0;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .categoria-btn.bg-indigo-600,
-    .categoria-btn:hover {
-        background-color: #fdd835;
-        color: #212121;
-        border-color: #fdd835;
-    }
-
-    .produto-card {
-        background-color: rgba(30, 30, 30, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    }
-
-    .produto-card h3,
-    .produto-card p {
-        color: #e0e0e0;
-    }
-
-    .produto-card .text-indigo-600 {
-        color: #fdd835;
-    }
-
-    .produto-card button {
-        background-color: #374151; /* Cinza mais claro para botões */
-        color: #e0e0e0;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .produto-card button:hover {
-        background-color: #4b5563;
-    }
-
-    .produto-card button.bg-green-500 {
-        background-color: #81c784;
-        color: #212121;
-    }
-
-    .produto-card button.bg-green-500:hover {
-        background-color: #a5d6a7;
-    }
-
-    .produto-card button.bg-indigo-600 {
-        background-color: #fdd835;
-        color: #212121;
-    }
-
-    .produto-card button.bg-indigo-600:hover {
-        background-color: #ffe082;
-    }
-
-    #carrinho-container,
-    #mobile-cart-content {
-        background-color: rgba(30, 30, 30, 0.9);
-        backdrop-filter: blur(10px);
-        border-left: 1px solid rgba(255, 255, 255, 0.05);
-        color: #e0e0e0;
-    }
-
-    #carrinho-container h2,
-    #mobile-cart-content h2 {
-        border-bottom-color: rgba(255, 255, 255, 0.1);
-    }
-
-    #carrinho-container .border-b,
-    #mobile-cart-content .border-b {
-        border-bottom-color: rgba(255, 255, 255, 0.05);
-    }
-
-    #carrinho-container button,
-    #mobile-cart-content button {
-        background-color: #374151;
-        color: #e0e0e0;
-    }
-
-    #carrinho-container button:hover,
-    #mobile-cart-content button:hover {
-        background-color: #4b5563;
-    }
-
-    #carrinho-container .text-indigo-600,
-    #mobile-cart-content .text-indigo-600 {
-        color: #fdd835;
-    }
-
-    #mobile-cart-modal {
-        background-color: rgba(0, 0, 0, 0.7);
-    }
-
-    #toast-container .bg-gray-800 {
-        background-color: rgba(40, 40, 40, 0.9);
-        color: #e0e0e0;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    #toast-container .bg-red-500 {
-        background-color: rgba(150, 0, 0, 0.9);
-        color: #e0e0e0;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    footer {
-        background-color: #212121;
-        color: #bdbdbd;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    footer a {
-        color: #bdbdbd;
-    }
-
-    footer a:hover {
-        color: #fdd835;
-    }
-</style>
+  </style>
 </head>
 <body class="text-gray-800">
 
@@ -259,7 +91,7 @@
 
     <main class="w-full lg:w-2/3 xl:w-3/4 p-4 sm:p-6 lg:p-8">
       <header class="mb-6">
-        <h2 class="text-4xl font-bold text-gray-300">Nossos Produtos</h2>
+        <h2 class="text-4xl font-bold text-gray-900">Nossos Produtos</h2>
         <p class="text-gray-600 mt-1">Explore nosso catálogo completo.</p>
       </header>
 
@@ -308,7 +140,7 @@
         <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
             <div class="mb-4 md:mb-0">
                 <h3 class="text-2xl font-bold">Vende+</h3>
-                <p class="text-gray-400">© 2025 Vende+. Todos os direitos reservados.</p>
+                <p class="text-gray-400">© 2024 Vende+. Todos os direitos reservados.</p>
             </div>
             <nav class="flex space-x-6 mb-4 md:mb-0">
                 <a href="index.html" class="hover:text-indigo-400 transition-colors">Produtos</a>
@@ -380,11 +212,6 @@
         } catch (error) {
             console.error("Falha ao carregar produtos:", error);
             document.getElementById('loja').innerHTML = `<p class="col-span-full text-center text-red-500">Não foi possível carregar os produtos. Tente novamente mais tarde.</p>`;
-        } finally {
-            // Ensure loading indicator is hidden even if there's an error
-            if (loadingIndicator) {
-                loadingIndicator.style.display = 'none';
-            }
         }
     }
 
@@ -436,6 +263,12 @@
             return;
         }
         
+        // Hide loading indicator once products are ready to be rendered
+        const loadingIndicator = document.getElementById('loading-indicator');
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'none';
+        }
+
         listaFiltrada.forEach(p => {
             const produtoCard = criarCardProduto(p);
             loja.appendChild(produtoCard);
