@@ -2,8 +2,14 @@
 <html lang="pt" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <title>Print Palette | Produtos</title>
+  <title id="site-title">Print Palette | Produtos</title>
+  <meta id="meta-description" name="description" content="Damos vida às suas ideias com a máxima qualidade, desde impressões personalizadas a brindes promocionais.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta id="og-title" property="og:title" content="Print Palette | Produtos">
+  <meta id="og-description" property="og:description" content="Damos vida às suas ideias com a máxima qualidade, desde impressões personalizadas a brindes promocionais.">
+  <meta id="og-image" property="og:image" content="https://placehold.co/1200x630/e2e8f0/64748b?text=Print+Palette">
+  <meta id="og-url" property="og:url" content="https://seudominio.com/index.html">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,15 +30,15 @@
 
   <header id="main-header" class="bg-white shadow-md fixed top-0 left-0 right-0 z-30">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <div class="flex-shrink-0"><a href="index.html" class="text-2xl font-bold text-indigo-600">Print Palette</a></div>
-            <nav class="hidden md:flex items-center space-x-8">
-                <a href="index.html" class="font-semibold text-indigo-600 border-b-2 border-indigo-600 pb-1">Produtos</a>
-                <a href="sobre.html" class="text-gray-600 hover:text-indigo-600">Sobre Nós</a>
-                <a href="contactos.html" class="text-gray-600 hover:text-indigo-600">Contactos</a>
-            </nav>
-            <div class="md:hidden"><button id="mobile-menu-button" class="text-gray-600"><i class="fas fa-bars fa-lg"></i></button></div>
-        </div>
+      <div class="flex items-center justify-between h-16">
+        <div class="flex-shrink-0"><a href="index.html" class="text-2xl font-bold text-indigo-600">Print Palette</a></div>
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="index.html" class="font-semibold text-indigo-600 border-b-2 border-indigo-600 pb-1">Produtos</a>
+          <a href="sobre.html" class="text-gray-600 hover:text-indigo-600">Sobre Nós</a>
+          <a href="contactos.html" class="text-gray-600 hover:text-indigo-600">Contactos</a>
+        </nav>
+        <div class="md:hidden"><button id="mobile-menu-button" class="text-gray-600"><i class="fas fa-bars fa-lg"></i></button></div>
+      </div>
     </div>
     <div id="mobile-menu" class="md:hidden hidden bg-white border-t"><nav class="flex flex-col items-center space-y-4 py-4"><a href="index.html" class="font-semibold text-indigo-600">Produtos</a><a href="sobre.html" class="text-gray-600 hover:text-indigo-600">Sobre Nós</a><a href="contactos.html" class="text-gray-600 hover:text-indigo-600">Contactos</a></nav></div>
   </header>
@@ -46,9 +52,19 @@
     <main class="w-full lg:w-2/3 xl:w-3/4 p-4 sm:p-6 lg:p-8">
       <header class="mb-6"><h2 class="text-4xl font-bold text-gray-900">Nossos Produtos</h2><p class="text-gray-600 mt-1">As nossas soluções mais populares.</p></header>
       <div id="filtros-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 p-4 bg-white rounded-xl shadow-sm">
+        <button onclick="recarregarDados()" class="w-full px-4 py-2 border rounded-lg bg-indigo-500 text-white hover:bg-indigo-600 transition-colors">
+          <i class="fas fa-sync-alt mr-2"></i> Atualizar Dados
+        </button>
         <input type="text" id="pesquisa" placeholder="Pesquisar por nome..." class="w-full px-4 py-2 border rounded-lg" oninput="renderizarProdutos()">
-        <select id="ordenar" class="w-full px-4 py-2 border rounded-lg" onchange="renderizarProdutos()"><option value="nenhum">Ordenar por</option><option value="preco_asc">Preço: menor para maior</option><option value="preco_desc">Preço: maior para menor</option></select>
-        <label class="flex items-center space-x-2"><input type="checkbox" id="apenasDisponiveis" class="h-4 w-4 rounded" onchange="renderizarProdutos()"><span>Apenas disponíveis</span></label>
+        <select id="ordenar" class="w-full px-4 py-2 border rounded-lg" onchange="renderizarProdutos()">
+          <option value="nenhum">Ordenar por</option>
+          <option value="preco_asc">Preço: menor para maior</option>
+          <option value="preco_desc">Preço: maior para menor</option>
+        </select>
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" id="apenasDisponiveis" class="h-4 w-4 rounded" onchange="renderizarProdutos()">
+          <span>Apenas disponíveis</span>
+        </label>
       </div>
       <div id="categorias" class="flex items-center space-x-2 overflow-x-auto pb-4 mb-6"></div>
       <div id="loja" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"><div id="loading-indicator" class="col-span-full text-center py-10"><i class="fas fa-spinner fa-spin fa-3x text-indigo-500"></i><p class="mt-4">A carregar produtos...</p></div></div>
@@ -64,6 +80,12 @@
   <footer class="bg-gray-800 text-white mt-12"><div class="container mx-auto px-4 py-8"><div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left"><div class="mb-4 md:mb-0"><h3 class="text-2xl font-bold">Print Palette</h3><p class="text-gray-400">© 2025 Print Palette. Todos os direitos reservados.</p></div><nav class="flex space-x-6 mb-4 md:mb-0"><a href="index.html" class="hover:text-indigo-400">Produtos</a><a href="sobre.html" class="hover:text-indigo-400">Sobre Nós</a><a href="contactos.html" class="hover:text-indigo-400">Contactos</a></nav><div class="flex space-x-4"><a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f fa-lg"></i></a><a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-lg"></i></a><a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-whatsapp fa-lg"></i></a></div></div></div></footer>
 
   <script>
+    // SEO: Adicione as definições originais das meta tags
+    const TITULO_ORIGINAL = "Print Palette | Produtos";
+    const DESCRICAO_ORIGINAL = "Damos vida às suas ideias com a máxima qualidade, desde impressões personalizadas a brindes promocionais.";
+    const URL_ORIGINAL = "https://seudominio.com/index.html";
+    const OG_IMAGE_ORIGINAL = "https://placehold.co/1200x630/e2e8f0/64748b?text=Print+Palette";
+
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
     mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
@@ -76,6 +98,7 @@
     let categoriaAtual = "Todos";
     let countdownInterval;
 
+    // SEO: Altera o listener para carregar produtos e depois verificar o URL
     document.addEventListener('DOMContentLoaded', carregarProdutos);
 
     async function carregarProdutos() {
@@ -112,17 +135,41 @@
                 };
             });
             
-            mostrarCategorias(); renderizarProdutos(); actualizarCarrinhoCompleto(); iniciarContadores();
+            mostrarCategorias();
+            renderizarProdutos();
+            actualizarCarrinhoCompleto();
+            iniciarContadores();
             loadingIndicator?.remove();
+            // SEO: Depois de carregar tudo, verifica se há um produto no URL
+            verificarURLProduto();
         } catch (error) {
             console.error("Falha ao carregar produtos:", error);
             if (loadingIndicator) loadingIndicator.innerHTML = `<p class="col-span-full text-red-500">Falha ao carregar produtos. Verifique a consola (F12) para mais detalhes.</p>`;
         }
     }
 
+    // SEO: Nova função para verificar o URL na carga da página
+    function verificarURLProduto() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const produtoId = urlParams.get('produto');
+        if (produtoId !== null) {
+            const id = parseInt(produtoId);
+            const produto = produtos.find(p => p.id === id);
+            if (produto) {
+                abrirPrevisao(id);
+            }
+        }
+    }
+
+    // SEO: Adicionado "history.pushState" para o URL do produto e funções de SEO
     function abrirPrevisao(produtoId) {
         const produto = produtos.find(p => p.id === produtoId);
         if (!produto) return;
+        
+        // SEO: Atualiza o URL e as meta tags
+        history.pushState(null, '', `?produto=${produtoId}`);
+        atualizarMetaTags(produto);
+        
         const modal = document.getElementById('preview-modal');
         const content = document.getElementById('preview-content');
         
@@ -133,7 +180,6 @@
         }
         
         let thumbnailsHTML = '';
-        // OTIMIZAÇÃO: Só mostra a galeria se houver mais de uma imagem
         if (produto.imagens.length > 1) {
             thumbnailsHTML = produto.imagens.map((imgUrl, index) => 
                 `<img src="${imgUrl}" alt="Thumbnail ${index+1}" class="h-16 w-16 object-cover rounded-md cursor-pointer border-2 hover:border-indigo-500 transition ${index === 0 ? 'thumbnail-active' : 'border-transparent'}" onclick="mudarImagemPrevisao(this, '${imgUrl}')">`
@@ -166,9 +212,69 @@
         
         modal.classList.remove('hidden');
         modal.classList.add('flex');
-        actualizarTodosContadores(); // Garante que o contador aparece assim que o modal abre
+        actualizarTodosContadores();
     }
 
+    // SEO: Adicionado "history.pushState" para o URL da página inicial e remove o SEO do produto
+    function fecharPrevisao() {
+        document.getElementById('preview-modal').classList.add('hidden');
+        history.pushState(null, '', 'index.html');
+        resetarMetaTags();
+    }
+
+    // SEO: Funções de SEO dinâmico
+    function atualizarMetaTags(produto) {
+        document.getElementById('site-title').textContent = `${produto.nome} | Print Palette`;
+        document.getElementById('meta-description').content = produto.descricao;
+        document.getElementById('og-title').content = produto.nome;
+        document.getElementById('og-description').content = produto.descricao;
+        document.getElementById('og-image').content = produto.imagens[0];
+        document.getElementById('og-url').content = `${URL_ORIGINAL}?produto=${produto.id}`;
+        
+        gerarSchemaProduto(produto);
+    }
+    
+    function resetarMetaTags() {
+        document.getElementById('site-title').textContent = TITULO_ORIGINAL;
+        document.getElementById('meta-description').content = DESCRICAO_ORIGINAL;
+        document.getElementById('og-title').content = TITULO_ORIGINAL;
+        document.getElementById('og-description').content = DESCRICAO_ORIGINAL;
+        document.getElementById('og-image').content = OG_IMAGE_ORIGINAL;
+        document.getElementById('og-url').content = URL_ORIGINAL;
+        
+        removerSchemaProduto();
+    }
+
+    function gerarSchemaProduto(produto) {
+        const schema = {
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            "name": produto.nome,
+            "image": produto.imagens,
+            "description": produto.descricao,
+            "offers": {
+                "@type": "Offer",
+                "url": `${URL_ORIGINAL}?produto=${produto.id}`,
+                "priceCurrency": "MZN",
+                "price": produto.preco,
+                "itemCondition": "https://schema.org/NewCondition",
+                "availability": produto.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+            }
+        };
+        const scriptTag = document.createElement('script');
+        scriptTag.type = 'application/ld+json';
+        scriptTag.id = 'product-schema';
+        scriptTag.textContent = JSON.stringify(schema);
+        document.head.appendChild(scriptTag);
+    }
+
+    function removerSchemaProduto() {
+        const schemaTag = document.getElementById('product-schema');
+        if (schemaTag) {
+            schemaTag.remove();
+        }
+    }
+    
     function mudarImagemPrevisao(thumbnailElement, novaUrl) {
         document.getElementById('preview-main-image').src = novaUrl;
         document.querySelectorAll('#preview-content .thumbnail-active').forEach(el => el.classList.remove('thumbnail-active', 'border-indigo-500'));
@@ -199,8 +305,6 @@
         });
     }
 
-    // --- Funções do Core (carrinho, cards, etc.) - Cole o restante do seu JS aqui ---
-    // Incluí as funções mais importantes e otimizadas. O resto pode ser colado do ficheiro anterior.
     function renderizarProdutos() {
         const loja = document.getElementById('loja'); loja.innerHTML = '';
         const termo = document.getElementById('pesquisa').value.toLowerCase(); const ordenar = document.getElementById('ordenar').value; const apenasDisponiveis = document.getElementById('apenasDisponiveis').checked;
@@ -228,7 +332,6 @@
     function salvarCarrinho() { localStorage.setItem('carrinhoVendeMais', JSON.stringify(carrinho)); }
     function actualizarCarrinhoCompleto() { const total = carrinho.reduce((s, i) => s + i.preco * i.quantidade, 0); const totalItens = carrinho.reduce((s, i) => s + i.quantidade, 0); document.getElementById('carrinho-container').innerHTML = gerarHTMLCarrinho(total, 'desktop'); document.getElementById('mobile-cart-content').innerHTML = gerarHTMLCarrinho(total, 'mobile'); document.getElementById('mobile-cart-count').innerText = totalItens; }
     function actualizarCardProduto(id) { const card = document.querySelector(`#btn-add-${id}`)?.closest('.produto-card'); if (!card) return; const p = produtos.find(pr => pr.id === id); const item = carrinho.find(i => i.id === id); const stockAtual = p.stock - (item?.quantidade || 0); const emStock = stockAtual > 0; const stockEl = card.querySelector('.stock-display'); if (stockEl) stockEl.textContent = `Stock: ${stockAtual}`; const btn = card.querySelector(`#btn-add-${id}`); const icon = btn.querySelector('i'); btn.disabled = !emStock; if (!emStock) { btn.className = 'w-full text-white font-bold py-2 px-4 rounded-lg transition-colors bg-gray-400 cursor-not-allowed'; icon.className = 'fas fa-times-circle'; } else if (item) { btn.className = 'w-full text-white font-bold py-2 px-4 rounded-lg transition-colors bg-green-500 hover:bg-green-600'; icon.className = 'fas fa-check'; } else { btn.className = 'w-full text-white font-bold py-2 px-4 rounded-lg transition-colors bg-indigo-600 hover:bg-indigo-700'; icon.className = 'fas fa-cart-plus'; } }
-    function fecharPrevisao() { document.getElementById('preview-modal').classList.add('hidden'); }
     function iniciarContadores() { if (countdownInterval) clearInterval(countdownInterval); countdownInterval = setInterval(actualizarTodosContadores, 1000); }
     function mostrarCategorias() { const c = document.getElementById("categorias"), s = new Set(produtos.map(p => p.categoria)), a = ["Todos", ...Array.from(s).sort()]; c.innerHTML = a.map(cat => `<button class="whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold shadow-sm transition-colors ${cat === categoriaAtual ? 'bg-indigo-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'}" onclick="filtrarCategoria('${cat}')">${cat.charAt(0).toUpperCase() + cat.slice(1)}</button>`).join(""); }
     function filtrarCategoria(cat) { categoriaAtual = cat; mostrarCategorias(); renderizarProdutos(); }
