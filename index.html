@@ -10,38 +10,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f8fafc; /* cinza claro do tailwind */
-      padding-top: 64px; /* Altura do header fixo */
-    }
-    /* Animação para o toast/notificação */
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0; transform: translateY(20px); }
-      10%, 90% { opacity: 1; transform: translateY(0); }
-    }
-    .toast-animation {
-      animation: fadeInOut 4s ease-in-out forwards;
-    }
-    /* Esconder a barra de rolagem do container de categorias */
-    #categorias::-webkit-scrollbar {
-        display: none;
-    }
-    #categorias {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    /* Estilo para a secção de herói com vídeo */
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5); /* Overlay escuro */
-        z-index: 1;
-    }
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; padding-top: 64px; }
+    @keyframes fadeInOut { 0%, 100% { opacity: 0; transform: translateY(20px); } 10%, 90% { opacity: 1; transform: translateY(0); } }
+    .toast-animation { animation: fadeInOut 4s ease-in-out forwards; }
+    #categorias::-webkit-scrollbar { display: none; }
+    #categorias { -ms-overflow-style: none; scrollbar-width: none; }
+    .hero-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1; }
+    .strikethrough { text-decoration: line-through; }
+    .thumbnail-active { border: 2px solid #4f46e5; box-shadow: 0 0 8px rgba(79, 70, 229, 0.5); }
   </style>
 </head>
 <body class="text-gray-800">
@@ -49,469 +25,217 @@
   <header id="main-header" class="bg-white shadow-md fixed top-0 left-0 right-0 z-30">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-            <div class="flex-shrink-0">
-                <a href="index.html" class="text-2xl font-bold text-indigo-600">Print Palette</a>
-            </div>
+            <div class="flex-shrink-0"><a href="index.html" class="text-2xl font-bold text-indigo-600">Print Palette</a></div>
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="index.html" class="font-semibold text-indigo-600 border-b-2 border-indigo-600 pb-1">Produtos</a>
-                <a href="sobre.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Sobre Nós</a>
-                <a href="contactos.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Contactos</a>
+                <a href="sobre.html" class="text-gray-600 hover:text-indigo-600">Sobre Nós</a>
+                <a href="contactos.html" class="text-gray-600 hover:text-indigo-600">Contactos</a>
             </nav>
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-gray-600 hover:text-indigo-600 focus:outline-none">
-                    <i class="fas fa-bars fa-lg"></i>
-                </button>
-            </div>
+            <div class="md:hidden"><button id="mobile-menu-button" class="text-gray-600"><i class="fas fa-bars fa-lg"></i></button></div>
         </div>
     </div>
-    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
-        <nav class="flex flex-col items-center space-y-4 py-4">
-            <a href="index.html" class="font-semibold text-indigo-600">Produtos</a>
-            <a href="sobre.html" class="text-gray-600 hover:text-indigo-600">Sobre Nós</a>
-            <a href="contactos.html" class="text-gray-600 hover:text-indigo-600">Contactos</a>
-        </nav>
-    </div>
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t"><nav class="flex flex-col items-center space-y-4 py-4"><a href="index.html" class="font-semibold text-indigo-600">Produtos</a><a href="sobre.html" class="text-gray-600 hover:text-indigo-600">Sobre Nós</a><a href="contactos.html" class="text-gray-600 hover:text-indigo-600">Contactos</a></nav></div>
   </header>
 
   <section class="hero-section relative h-[60vh] flex items-center justify-center text-white text-center overflow-hidden">
-    <video autoplay loop muted playsinline class="absolute top-1/2 left-1/2 w-full h-full object-cover transform -translate-x-1/2 -translate-y-1/2 z-0">
-        <source src="https://video.wixstatic.com/video/819ea0_7461619ea5f94ee0a92c7023be27a9bb/1080p/mp4/file.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-        </video>
-    <div class="z-10 p-4">
-        <h1 class="text-4xl md:text-6xl font-bold drop-shadow-lg">Impressão que Impressiona</h1>
-        <p class="mt-4 text-lg md:text-xl max-w-2xl mx-auto drop-shadow-md">Damos vida às suas ideias com a máxima qualidade em Banners, Vinil, DTF e muito mais.</p>
-        <a href="#catalogo" class="mt-8 inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform hover:scale-105">
-            Explorar Produtos
-        </a>
-    </div>
+    <video autoplay loop muted playsinline class="absolute top-1/2 left-1/2 w-full h-full object-cover transform -translate-x-1/2 -translate-y-1/2 z-0"><source src="https://video.wixstatic.com/video/819ea0_7461619ea5f94ee0a92c7023be27a9bb/1080p/mp4/file.mp4" type="video/mp4"></video>
+    <div class="z-10 p-4"><h1 class="text-4xl md:text-6xl font-bold">Impressão que Impressiona</h1><p class="mt-4 text-lg md:text-xl max-w-2xl mx-auto">Damos vida às suas ideias com a máxima qualidade.</p><a href="#catalogo" class="mt-8 inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform hover:scale-105">Explorar Produtos</a></div>
   </section>
 
   <div id="catalogo" class="flex flex-col lg:flex-row container mx-auto">
-
     <main class="w-full lg:w-2/3 xl:w-3/4 p-4 sm:p-6 lg:p-8">
-      <header class="mb-6">
-        <h2 class="text-4xl font-bold text-gray-900">Nossos Produtos</h2>
-        <p class="text-gray-600 mt-1">As nossas soluções mais populares, prontas para o seu projeto.</p>
-      </header>
-
+      <header class="mb-6"><h2 class="text-4xl font-bold text-gray-900">Nossos Produtos</h2><p class="text-gray-600 mt-1">As nossas soluções mais populares.</p></header>
       <div id="filtros-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 p-4 bg-white rounded-xl shadow-sm">
-        <input type="text" id="pesquisa" placeholder="Pesquisar por nome..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" oninput="renderizarProdutos()">
-        <select id="ordenar" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" onchange="renderizarProdutos()">
-          <option value="nenhum">Ordenar por</option>
-          <option value="preco_asc">Preço: menor para maior</option>
-          <option value="preco_desc">Preço: maior para menor</option>
-        </select>
-        <label class="flex items-center justify-center sm:justify-start space-x-2 text-gray-700">
-          <input type="checkbox" id="apenasDisponiveis" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" onchange="renderizarProdutos()">
-          <span>Apenas disponíveis</span>
-        </label>
+        <input type="text" id="pesquisa" placeholder="Pesquisar por nome..." class="w-full px-4 py-2 border rounded-lg" oninput="renderizarProdutos()">
+        <select id="ordenar" class="w-full px-4 py-2 border rounded-lg" onchange="renderizarProdutos()"><option value="nenhum">Ordenar por</option><option value="preco_asc">Preço: menor para maior</option><option value="preco_desc">Preço: maior para menor</option></select>
+        <label class="flex items-center space-x-2"><input type="checkbox" id="apenasDisponiveis" class="h-4 w-4 rounded" onchange="renderizarProdutos()"><span>Apenas disponíveis</span></label>
       </div>
-
-      <div id="categorias" class="flex items-center space-x-2 overflow-x-auto pb-4 mb-6">
-        </div>
-
-      <div id="loja" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <div id="loading-indicator" class="col-span-full text-center py-10">
-            <i class="fas fa-spinner fa-spin fa-3x text-indigo-500"></i>
-            <p class="mt-4 text-gray-600">A carregar produtos...</p>
-        </div>
-      </div>
+      <div id="categorias" class="flex items-center space-x-2 overflow-x-auto pb-4 mb-6"></div>
+      <div id="loja" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"><div id="loading-indicator" class="col-span-full text-center py-10"><i class="fas fa-spinner fa-spin fa-3x text-indigo-500"></i><p class="mt-4">A carregar produtos...</p></div></div>
     </main>
-
-    <aside id="carrinho-container" class="w-full lg:w-1/3 xl:w-1/4 bg-white border-l border-gray-200 p-6 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto hidden lg:block">
-        </aside>
+    <aside id="carrinho-container" class="w-full lg:w-1/3 xl:w-1/4 bg-white border-l p-6 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto hidden lg:block"></aside>
   </div>
 
-  <button id="mobile-cart-button" onclick="toggleMobileCart()" class="lg:hidden fixed bottom-6 right-6 bg-indigo-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl z-40">
-      <i class="fas fa-shopping-cart"></i>
-      <span id="mobile-cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">0</span>
-  </button>
-  
-  <div id="mobile-cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden" onclick="toggleMobileCart()">
-      <div id="mobile-cart-content" class="absolute bottom-0 left-0 right-0 bg-white p-6 rounded-t-2xl max-h-[80vh] overflow-y-auto" onclick="event.stopPropagation()">
-           </div>
-  </div>
-
+  <button id="mobile-cart-button" onclick="toggleMobileCart()" class="lg:hidden fixed bottom-6 right-6 bg-indigo-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl z-40"><i class="fas fa-shopping-cart"></i><span id="mobile-cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">0</span></button>
+  <div id="mobile-cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden" onclick="toggleMobileCart()"><div id="mobile-cart-content" class="absolute bottom-0 left-0 right-0 bg-white p-6 rounded-t-2xl max-h-[80vh] overflow-y-auto" onclick="event.stopPropagation()"></div></div>
+  <div id="preview-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4" onclick="fecharPrevisao()"><div id="preview-content" class="bg-white rounded-2xl shadow-2xl w-11/12 md:w-3/4 lg:w-2/3 max-w-4xl max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()"></div></div>
   <div id="toast-container" class="fixed bottom-5 right-5 z-50"></div>
   
-  <footer class="bg-gray-800 text-white mt-12">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
-            <div class="mb-4 md:mb-0">
-                <h3 class="text-2xl font-bold">Print Palette</h3>
-                <p class="text-gray-400">© 2025 Print Palette. Todos os direitos reservados.</p>
-            </div>
-            <nav class="flex space-x-6 mb-4 md:mb-0">
-                <a href="index.html" class="hover:text-indigo-400 transition-colors">Produtos</a>
-                <a href="sobre.html" class="hover:text-indigo-400 transition-colors">Sobre Nós</a>
-                <a href="contactos.html" class="hover:text-indigo-400 transition-colors">Contactos</a>
-            </nav>
-            <div class="flex space-x-4">
-                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-facebook-f fa-lg"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram fa-lg"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-whatsapp fa-lg"></i></a>
-            </div>
-        </div>
-    </div>
-  </footer>
+  <footer class="bg-gray-800 text-white mt-12"><div class="container mx-auto px-4 py-8"><div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left"><div class="mb-4 md:mb-0"><h3 class="text-2xl font-bold">Print Palette</h3><p class="text-gray-400">© 2025 Print Palette. Todos os direitos reservados.</p></div><nav class="flex space-x-6 mb-4 md:mb-0"><a href="index.html" class="hover:text-indigo-400">Produtos</a><a href="sobre.html" class="hover:text-indigo-400">Sobre Nós</a><a href="contactos.html" class="hover:text-indigo-400">Contactos</a></nav><div class="flex space-x-4"><a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f fa-lg"></i></a><a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-lg"></i></a><a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-whatsapp fa-lg"></i></a></div></div></div></footer>
 
   <script>
-    // --- LÓGICA DO HEADER ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    mobileMenuButton.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-    });
+    mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-    // --- CONFIGURAÇÃO ---
     const URL_SHEET = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6oL6e1nGnPBuBAdKaNre8thqvrtnEp-ld37t2Xe94BQYSXuhxSARO7J-jqRcD-T3JybiFH2E2d33q/pub?output=csv";
-    const WHATSAPP_NUMBER = "258873735009"; // Insira o número do WhatsApp aqui
+    const WHATSAPP_NUMBER = "258873735009";
 
-    // --- ESTADO DA APLICAÇÃO ---
     let produtos = [];
     let carrinho = JSON.parse(localStorage.getItem('carrinhoVendeMais')) || [];
     let categoriaAtual = "Todos";
+    let countdownInterval;
 
-    // --- INICIALIZAÇÃO ---
     document.addEventListener('DOMContentLoaded', carregarProdutos);
 
-    /**
-     * Carrega os produtos da planilha do Google.
-     */
     async function carregarProdutos() {
         const loadingIndicator = document.getElementById('loading-indicator');
-        if (loadingIndicator) {
-            loadingIndicator.style.display = 'block';
-        }
-
         try {
             const res = await fetch(URL_SHEET);
-            if (!res.ok) throw new Error(`Erro ao carregar dados: ${res.statusText}`);
-            
+            if (!res.ok) throw new Error(`Erro: ${res.statusText}`);
             const csv = await res.text();
             const linhas = csv.split("\n").filter(l => l.trim());
-            linhas.shift(); // Remove o cabeçalho
+            const cabecalho = linhas.shift().split(",").map(h => h.trim().toLowerCase());
             
+            const getIndex = (name) => cabecalho.indexOf(name.toLowerCase());
+            const indices = {
+                nome: getIndex('nome'), preco_original: getIndex('preco_original'), preco_desconto: getIndex('preco_desconto'), stock: getIndex('stock'),
+                imagens: getIndex('imagens'), categoria: getIndex('categoria'), descricao: getIndex('descricao'), desconto_fim: getIndex('desconto_fim')
+            };
+
             produtos = linhas.map((linha, index) => {
                 const dados = linha.split(",").map(d => d.trim());
+                const precoOriginal = parseFloat(dados[indices.preco_original]) || 0;
+                const precoDesconto = parseFloat(dados[indices.preco_desconto]);
+                const imagensStr = dados[indices.imagens] || 'https://placehold.co/600x600/e2e8f0/64748b?text=Sem+Imagem';
+
                 return {
-                    id: index,
-                    nome: dados[0] || 'Produto sem nome',
-                    preco: parseFloat(dados[1]) || 0,
-                    stock: parseInt(dados[2]) || 0,
-                    imagem: dados[3] || 'https://placehold.co/300x300/e2e8f0/64748b?text=Sem+Imagem',
-                    categoria: (dados[4] || "Outros").trim()
+                    id: index, nome: dados[indices.nome] || 'Produto sem nome', preco_original: precoOriginal,
+                    preco: !isNaN(precoDesconto) && precoDesconto > 0 ? precoDesconto : precoOriginal,
+                    tem_desconto: !isNaN(precoDesconto) && precoDesconto > 0 && precoDesconto < precoOriginal,
+                    stock: parseInt(dados[indices.stock]) || 0,
+                    // CORREÇÃO: Filtra para remover URLs vazias resultantes de um ";" extra
+                    imagens: imagensStr.split(';').map(url => url.trim()).filter(url => url),
+                    categoria: (dados[indices.categoria] || "Outros").trim(),
+                    descricao: dados[indices.descricao] || "Sem descrição disponível.",
+                    desconto_fim: dados[indices.desconto_fim] ? new Date(dados[indices.desconto_fim].replace(/-/g, '/')) : null
                 };
             });
             
-            mostrarCategorias();
-            renderizarProdutos();
-            actualizarCarrinhoCompleto();
-
+            mostrarCategorias(); renderizarProdutos(); actualizarCarrinhoCompleto(); iniciarContadores();
+            loadingIndicator?.remove();
         } catch (error) {
             console.error("Falha ao carregar produtos:", error);
-            document.getElementById('loja').innerHTML = `<p class="col-span-full text-center text-red-500">Não foi possível carregar os produtos. Tente novamente mais tarde.</p>`;
+            if (loadingIndicator) loadingIndicator.innerHTML = `<p class="col-span-full text-red-500">Falha ao carregar produtos. Verifique a consola (F12) para mais detalhes.</p>`;
         }
     }
 
-    // --- RENDERIZAÇÃO E DOM ---
-
-    function mostrarCategorias() {
-        const container = document.getElementById("categorias");
-        const categoriasSet = new Set(produtos.map(p => p.categoria));
-        const categorias = ["Todos", ...Array.from(categoriasSet).sort()];
-        
-        container.innerHTML = categorias.map(cat => {
-            const isActive = cat === categoriaAtual;
-            const activeClasses = 'bg-indigo-600 text-white';
-            const inactiveClasses = 'bg-white text-gray-700 hover:bg-gray-100';
-            return `<button 
-                        class="categoria-btn whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold shadow-sm transition-colors ${isActive ? activeClasses : inactiveClasses}" 
-                        onclick="filtrarCategoria('${cat}')">
-                        ${cat.charAt(0).toUpperCase() + cat.slice(1)}
-                    </button>`;
-        }).join("");
-    }
-
-    function filtrarCategoria(cat) {
-        categoriaAtual = cat;
-        mostrarCategorias();
-        renderizarProdutos();
-    }
-
-    function renderizarProdutos() {
-        const loja = document.getElementById('loja');
-        loja.innerHTML = ''; 
-
-        const termo = document.getElementById('pesquisa').value.toLowerCase();
-        const ordenar = document.getElementById('ordenar').value;
-        const apenasDisponiveis = document.getElementById('apenasDisponiveis').checked;
-
-        let listaFiltrada = produtos.filter(p => {
-            const correspondeCategoria = categoriaAtual === "Todos" || p.categoria.toLowerCase() === categoriaAtual.toLowerCase();
-            const correspondeDisponibilidade = !apenasDisponiveis || p.stock > 0;
-            const correspondePesquisa = p.nome.toLowerCase().includes(termo);
-            return correspondeCategoria && correspondeDisponibilidade && correspondePesquisa;
-        });
-
-        if (ordenar === "preco_asc") listaFiltrada.sort((a, b) => a.preco - b.preco);
-        else if (ordenar === "preco_desc") listaFiltrada.sort((a, b) => b.preco - a.preco);
-
-        if(listaFiltrada.length === 0) {
-            loja.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">Nenhum produto encontrado com os filtros selecionados.</p>`;
-            return;
-        }
-        
-        // Hide loading indicator once products are ready to be rendered
-        const loadingIndicator = document.getElementById('loading-indicator');
-        if (loadingIndicator) {
-            loadingIndicator.style.display = 'none';
-        }
-
-        listaFiltrada.forEach(p => {
-            const produtoCard = criarCardProduto(p);
-            loja.appendChild(produtoCard);
-        });
-    }
-
-    function criarCardProduto(produto) {
-        const div = document.createElement('div');
-        div.className = 'produto-card bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:scale-105 flex flex-col';
-        
-        const itemNoCarrinho = carrinho.find(item => item.id === produto.id);
-        const emStock = produto.stock > 0;
-
-        div.innerHTML = `
-            <div class="relative">
-                <img src="${produto.imagem}" alt="${produto.nome}" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/300x300/e2e8f0/64748b?text=Erro+na+Imagem'">
-                ${!emStock ? '<div class="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-br-lg">ESGOTADO</div>' : ''}
-            </div>
-            <div class="p-4 flex flex-col flex-grow">
-                <h3 class="text-lg font-semibold text-gray-900 truncate">${produto.nome}</h3>
-                <p class="text-indigo-600 font-bold text-xl my-2">${produto.preco.toFixed(2)} MT</p>
-                <p class="text-sm text-gray-500 mb-4 mt-auto">Stock: ${produto.stock}</p>
-                <button 
-                    id="btn-add-${produto.id}"
-                    onclick="adicionarAoCarrinho(${produto.id})"
-                    class="w-full text-white font-bold py-2 px-4 rounded-lg transition-colors ${!emStock ? 'bg-gray-400 cursor-not-allowed' : (itemNoCarrinho ? 'bg-green-500 hover:bg-green-600' : 'bg-indigo-600 hover:bg-indigo-700')}"
-                    ${!emStock ? 'disabled' : ''}>
-                    <i class="fas ${itemNoCarrinho ? 'fa-check' : 'fa-cart-plus'} mr-2"></i>
-                    ${!emStock ? 'Esgotado' : (itemNoCarrinho ? 'Adicionado' : 'Adicionar')}
-                </button>
-            </div>
-        `;
-        return div;
-    }
-
-    // --- LÓGICA DO CARRINHO ---
-
-    function adicionarAoCarrinho(produtoId) {
+    function abrirPrevisao(produtoId) {
         const produto = produtos.find(p => p.id === produtoId);
         if (!produto) return;
+        const modal = document.getElementById('preview-modal');
+        const content = document.getElementById('preview-content');
         
-        const itemCarrinho = carrinho.find(item => item.id === produtoId);
-        const stockDisponivel = produto.stock - (itemCarrinho ? itemCarrinho.quantidade : 0);
-
-        if (stockDisponivel <= 0) {
-            mostrarToast("Este produto está esgotado.", "error");
-            return;
-        }
-
-        if (itemCarrinho) {
-            itemCarrinho.quantidade++;
-        } else {
-            carrinho.push({ id: produto.id, nome: produto.nome, preco: produto.preco, quantidade: 1 });
-        }
-
-        salvarCarrinho();
-        actualizarCarrinhoCompleto();
-        actualizarCardProduto(produtoId);
-        mostrarToast(`${produto.nome} foi adicionado ao carrinho!`);
-    }
-
-    function removerDoCarrinho(produtoId, removerTudo = false) {
-        const itemIndex = carrinho.findIndex(item => item.id === produtoId);
-        if (itemIndex === -1) return;
-
-        const itemCarrinho = carrinho[itemIndex];
-        
-        if (removerTudo || itemCarrinho.quantidade === 1) {
-            carrinho.splice(itemIndex, 1);
-        } else {
-            itemCarrinho.quantidade--;
+        let precoInfo = `<p class="text-indigo-600 font-bold text-3xl">${produto.preco.toFixed(2)} MT</p>`;
+        if (produto.tem_desconto) {
+            const percentagem = Math.round(((produto.preco_original - produto.preco) / produto.preco_original) * 100);
+            precoInfo = `<div class="flex items-baseline space-x-3"><p class="text-indigo-600 font-bold text-3xl">${produto.preco.toFixed(2)} MT</p><p class="text-gray-500 text-xl strikethrough">${produto.preco_original.toFixed(2)} MT</p><span class="bg-yellow-200 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded-full">${percentagem}% OFF</span></div>`;
         }
         
-        salvarCarrinho();
-        actualizarCarrinhoCompleto();
-        actualizarCardProduto(produtoId);
-    }
-    
-    function salvarCarrinho() {
-        localStorage.setItem('carrinhoVendeMais', JSON.stringify(carrinho));
-    }
+        let thumbnailsHTML = '';
+        // OTIMIZAÇÃO: Só mostra a galeria se houver mais de uma imagem
+        if (produto.imagens.length > 1) {
+            thumbnailsHTML = produto.imagens.map((imgUrl, index) => 
+                `<img src="${imgUrl}" alt="Thumbnail ${index+1}" class="h-16 w-16 object-cover rounded-md cursor-pointer border-2 hover:border-indigo-500 transition ${index === 0 ? 'thumbnail-active' : 'border-transparent'}" onclick="mudarImagemPrevisao(this, '${imgUrl}')">`
+            ).join('');
+        }
 
-    function actualizarCarrinhoCompleto() {
-        const total = carrinho.reduce((sum, item) => sum + item.preco * item.quantidade, 0);
-        const totalItens = carrinho.reduce((sum, item) => sum + item.quantidade, 0);
-        
-        const carrinhoContainer = document.getElementById('carrinho-container');
-        carrinhoContainer.innerHTML = gerarHTMLCarrinho(total, 'desktop');
-
-        const mobileCartContent = document.getElementById('mobile-cart-content');
-        mobileCartContent.innerHTML = gerarHTMLCarrinho(total, 'mobile');
-        document.getElementById('mobile-cart-count').innerText = totalItens;
-    }
-
-    function gerarHTMLCarrinho(total, context) {
-        let listaItensHTML = '';
-        if (carrinho.length === 0) {
-            listaItensHTML = '<p class="text-center text-gray-500 my-10">Seu carrinho está vazio.</p>';
-        } else {
-            listaItensHTML = carrinho.map(item => `
-                <div class="flex items-center justify-between py-3 border-b">
+        content.innerHTML = `
+            <div class="p-6 md:p-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div>
-                        <p class="font-semibold">${item.nome}</p>
-                        <p class="text-sm text-gray-600">${item.preco.toFixed(2)} MT</p>
+                        <img id="preview-main-image" src="${produto.imagens[0]}" alt="${produto.nome}" class="w-full max-h-[450px] object-cover rounded-lg shadow-lg mb-4">
+                        <div class="flex space-x-3 overflow-x-auto pb-2">${thumbnailsHTML}</div>
                     </div>
-                    <div class="flex items-center space-x-3">
-                        <button onclick="removerDoCarrinho(${item.id})" class="text-gray-500 hover:text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center">-</button>
-                        <span class="font-bold">${item.quantidade}</span>
-                        <button onclick="adicionarAoCarrinho(${item.id})" class="text-gray-500 hover:text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center">+</button>
-                        <button onclick="removerDoCarrinho(${item.id}, true)" class="text-red-500 hover:text-red-700 ml-2"><i class="fas fa-trash-alt"></i></button>
+                    <div class="flex flex-col">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="bg-indigo-100 text-indigo-800 text-sm font-medium px-3 py-1 rounded-full">${produto.categoria}</span>
+                            <button onclick="fecharPrevisao()" class="text-gray-400 hover:text-gray-800 text-2xl">&times;</button>
+                        </div>
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">${produto.nome}</h2>
+                        <div class="mb-4">${precoInfo}</div>
+                        <div id="timer-modal-${produto.id}" class="text-lg text-red-700 font-bold h-6 mb-4"></div>
+                        <hr class="my-4"><p class="text-gray-600 text-base mb-6 flex-grow">${produto.descricao}</p>
+                        <div class="mt-auto bg-gray-50 p-4 rounded-lg">
+                             <p class="stock-display text-sm text-gray-600 mb-4">Stock disponível: ${produto.stock - (carrinho.find(i => i.id === produto.id)?.quantidade || 0)}</p>
+                            <button onclick="adicionarAoCarrinho(${produto.id}); fecharPrevisao();" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center text-lg"><i class="fas fa-cart-plus mr-3"></i> Adicionar ao Carrinho</button>
+                        </div>
                     </div>
                 </div>
-            `).join('');
-        }
-
-        return `
-            <h2 class="text-2xl font-bold mb-6 border-b pb-4">Seu Pedido</h2>
-            <div id="lista-carrinho" class="mb-6">${listaItensHTML}</div>
-            <div class="border-t pt-4 mb-6">
-                <div class="flex justify-between items-center">
-                    <span class="text-lg font-semibold">Total:</span>
-                    <span id="total" class="text-2xl font-bold text-indigo-600">${total.toFixed(2)} MT</span>
-                </div>
-            </div>
-            <h3 class="text-xl font-bold mb-4">Detalhes da Entrega</h3>
-            <div class="space-y-4">
-                <input type="text" id="${context}-nomeCliente" placeholder="Seu nome completo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                <input type="tel" id="${context}-telefoneCliente" placeholder="Seu telefone (ex: 841234567)" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                <input type="text" id="${context}-moradaCliente" placeholder="Sua morada" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                <button onclick="enviarPedido('${context}')" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
-                    <i class="fab fa-whatsapp"></i>
-                    <span>Finalizar pedido no WhatsApp</span>
-                </button>
-            </div>
-        `;
+            </div>`;
+        
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        actualizarTodosContadores(); // Garante que o contador aparece assim que o modal abre
     }
 
-    function actualizarCardProduto(produtoId) {
-        const produto = produtos.find(p => p.id === produtoId);
-        const itemCarrinho = carrinho.find(item => item.id === produtoId);
-        const stockReal = produto.stock;
-        
-        const card = document.querySelector(`#btn-add-${produtoId}`)?.closest('.produto-card');
-        if (card) {
-            const stockDisponivel = stockReal - (itemCarrinho ? itemCarrinho.quantidade : 0);
-            
-            const stockElement = card.querySelector('p.text-sm.text-gray-500');
-            stockElement.textContent = `Stock: ${stockDisponivel}`;
-            
-            const button = card.querySelector('button');
-            const buttonIcon = button.querySelector('i');
+    function mudarImagemPrevisao(thumbnailElement, novaUrl) {
+        document.getElementById('preview-main-image').src = novaUrl;
+        document.querySelectorAll('#preview-content .thumbnail-active').forEach(el => el.classList.remove('thumbnail-active', 'border-indigo-500'));
+        thumbnailElement.classList.add('thumbnail-active', 'border-indigo-500');
+    }
 
-            if (stockDisponivel <= 0) {
-                button.disabled = true;
-                button.className = 'w-full text-white font-bold py-2 px-4 rounded-lg transition-colors bg-gray-400 cursor-not-allowed';
-                buttonIcon.className = 'fas fa-times-circle mr-2';
-                button.lastChild.textContent = ' Esgotado';
-                // Adiciona o selo de esgotado se não existir
-                if (!card.querySelector('.absolute.top-0')) {
-                    const esgotadoDiv = document.createElement('div');
-                    esgotadoDiv.className = 'absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-br-lg';
-                    esgotadoDiv.textContent = 'ESGOTADO';
-                    card.querySelector('.relative').prepend(esgotadoDiv);
-                }
-            } else {
-                 if (itemCarrinho) {
-                    button.className = 'w-full text-white font-bold py-2 px-4 rounded-lg transition-colors bg-green-500 hover:bg-green-600';
-                    buttonIcon.className = 'fas fa-check mr-2';
-                    button.lastChild.textContent = ' Adicionado';
-                } else {
-                    button.className = 'w-full text-white font-bold py-2 px-4 rounded-lg transition-colors bg-indigo-600 hover:bg-indigo-700';
-                    buttonIcon.className = 'fas fa-cart-plus mr-2';
-                    button.lastChild.textContent = ' Adicionar';
-                }
+    function actualizarTodosContadores() {
+        const agora = new Date();
+        produtos.forEach(p => {
+            if (p.desconto_fim && p.desconto_fim > agora) {
+                const diff = p.desconto_fim.getTime() - agora.getTime();
+                const d = Math.floor(diff / 86400000);
+                const h = Math.floor((diff % 86400000) / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                const texto = `Promoção termina em: ${d}d ${h}h ${m}m ${s}s`;
+                const timerCard = document.getElementById(`timer-card-${p.id}`);
+                const timerModal = document.getElementById(`timer-modal-${p.id}`);
+                if (timerCard) timerCard.textContent = texto;
+                if (timerModal) timerModal.textContent = texto;
+            } else if (p.desconto_fim) {
+                // Se a promoção terminou, limpa o texto
+                const timerCard = document.getElementById(`timer-card-${p.id}`);
+                const timerModal = document.getElementById(`timer-modal-${p.id}`);
+                if (timerCard) timerCard.textContent = 'Promoção terminada';
+                if (timerModal) timerModal.textContent = 'Promoção terminada';
             }
-        }
-    }
-
-    // --- AÇÕES DO USUÁRIO ---
-
-    function enviarPedido(context) {
-        const nome = document.getElementById(`${context}-nomeCliente`).value.trim();
-        const telefone = document.getElementById(`${context}-telefoneCliente`).value.trim();
-        const morada = document.getElementById(`${context}-moradaCliente`).value.trim();
-
-        if (!nome || !telefone || !morada) {
-            mostrarToast("Por favor, preencha todos os campos da entrega.", "error");
-            return;
-        }
-        if (carrinho.length === 0) {
-            mostrarToast("Seu carrinho está vazio. Adicione produtos antes de finalizar.", "error");
-            return;
-        }
-
-        let mensagem = `*Olá! Gostaria de fazer um novo pedido:*\n\n`;
-        mensagem += `*Itens do Pedido:*\n`;
-        carrinho.forEach(item => {
-            mensagem += `• ${item.quantidade}x ${item.nome} - *${(item.preco * item.quantidade).toFixed(2)} MT*\n`;
         });
-        const total = carrinho.reduce((sum, item) => sum + item.preco * item.quantidade, 0);
-        mensagem += `\n*Total do Pedido: ${total.toFixed(2)} MT*\n`;
-        mensagem += `\n*Detalhes da Entrega:*\n`;
-        mensagem += `*Nome:* ${nome}\n`;
-        mensagem += `*Telefone:* ${telefone}\n`;
-        mensagem += `*Morada:* ${morada}\n`;
+    }
 
-        const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
-        window.open(url, '_blank');
-        
-        // Limpar campos de formulário
-        document.getElementById(`${context}-nomeCliente`).value = '';
-        document.getElementById(`${context}-telefoneCliente`).value = '';
-        document.getElementById(`${context}-moradaCliente`).value = '';
-        
-        // Resetar o carrinho e a UI
-        carrinho.forEach(item => {
-           const p = produtos.find(prod => prod.id === item.id);
-           if(p) p.stock += item.quantidade; 
+    // --- Funções do Core (carrinho, cards, etc.) - Cole o restante do seu JS aqui ---
+    // Incluí as funções mais importantes e otimizadas. O resto pode ser colado do ficheiro anterior.
+    function renderizarProdutos() {
+        const loja = document.getElementById('loja'); loja.innerHTML = '';
+        const termo = document.getElementById('pesquisa').value.toLowerCase(); const ordenar = document.getElementById('ordenar').value; const apenasDisponiveis = document.getElementById('apenasDisponiveis').checked;
+        let listaFiltrada = produtos.filter(p => {
+            const stockAtual = p.stock - (carrinho.find(i => i.id === p.id)?.quantidade || 0);
+            const disp = !apenasDisponiveis || stockAtual > 0;
+            const cat = categoriaAtual === "Todos" || p.categoria.toLowerCase() === categoriaAtual.toLowerCase();
+            const pesq = p.nome.toLowerCase().includes(termo);
+            return disp && cat && pesq;
         });
-        
-        carrinho = [];
-        salvarCarrinho();
-        actualizarCarrinhoCompleto();
-        renderizarProdutos(); // Re-renderiza todos os produtos para mostrar o stock atualizado
-        mostrarToast("Pedido enviado! O carrinho foi limpo.", "success");
+        if (ordenar === "preco_asc") listaFiltrada.sort((a, b) => a.preco - b.preco); else if (ordenar === "preco_desc") listaFiltrada.sort((a, b) => b.preco - a.preco);
+        if (listaFiltrada.length === 0) { loja.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">Nenhum produto encontrado.</p>`; return; }
+        listaFiltrada.forEach(p => loja.appendChild(criarCardProduto(p)));
     }
-
-    function mostrarToast(message, type = 'success') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        const bgColor = type === 'error' ? 'bg-red-500' : 'bg-gray-800';
-        
-        toast.className = `toast-animation ${bgColor} text-white text-sm font-semibold py-3 px-5 rounded-lg shadow-xl`;
-        toast.textContent = message;
-        
-        container.appendChild(toast);
-        setTimeout(() => toast.remove(), 4000);
+    function criarCardProduto(p) {
+        const div = document.createElement('div'); div.className = 'produto-card bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:scale-105 flex flex-col';
+        const item = carrinho.find(i => i.id === p.id); const stockAtual = p.stock - (item?.quantidade || 0); const emStock = stockAtual > 0;
+        let desconto = '', preco = `<p class="text-indigo-600 font-bold text-xl my-1">${p.preco.toFixed(2)} MT</p>`;
+        if (p.tem_desconto) { const pct = Math.round(((p.preco_original - p.preco) / p.preco_original) * 100); desconto = `<div class="absolute top-2 right-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full">${pct}% OFF</div>`; preco = `<div class="flex items-baseline space-x-2 my-1"><p class="text-indigo-600 font-bold text-xl">${p.preco.toFixed(2)} MT</p><p class="text-gray-500 text-sm strikethrough">${p.preco_original.toFixed(2)} MT</p></div>`; }
+        div.innerHTML = `<div class="relative"><img src="${p.imagens[0]}" alt="${p.nome}" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/300x300/e2e8f0/64748b?text=Erro+Imagem'">${!emStock ? '<div class="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-br-lg">ESGOTADO</div>' : ''}${desconto}</div><div class="p-4 flex flex-col flex-grow"><h3 class="text-lg font-semibold text-gray-900 truncate">${p.nome}</h3><p class="text-sm text-gray-500 mt-1 flex-grow min-h-[40px]">${p.descricao.substring(0, 50)}${p.descricao.length > 50 ? '...' : ''}</p>${preco}<div id="timer-card-${p.id}" class="text-xs text-red-600 font-semibold h-4 mb-2"></div><p class="stock-display text-sm text-gray-500 mb-4 mt-auto">Stock: ${stockAtual}</p><div class="flex items-center space-x-2"><button id="btn-add-${p.id}" onclick="adicionarAoCarrinho(${p.id})" class="w-full text-white font-bold py-2 px-4 rounded-lg transition-colors ${!emStock ? 'bg-gray-400 cursor-not-allowed' : (item ? 'bg-green-500 hover:bg-green-600' : 'bg-indigo-600 hover:bg-indigo-700')}" ${!emStock ? 'disabled' : ''}><i class="fas ${item ? 'fa-check' : 'fa-cart-plus'}"></i></button><button onclick="abrirPrevisao(${p.id})" class="p-2 bg-gray-200 text-gray-700 hover:bg-gray-300 rounded-lg"><i class="fas fa-eye"></i></button></div></div>`;
+        return div;
     }
-    
-    function toggleMobileCart() {
-        const modal = document.getElementById('mobile-cart-modal');
-        modal.classList.toggle('hidden');
-    }
+    function adicionarAoCarrinho(id) { const p = produtos.find(p => p.id === id); if (!p) return; const item = carrinho.find(i => i.id === id); const stockDisp = p.stock - (item?.quantidade || 0); if (stockDisp <= 0) { mostrarToast("Produto esgotado.", "error"); return; } if (item) { item.quantidade++; } else { carrinho.push({ id: p.id, nome: p.nome, preco: p.preco, quantidade: 1 }); } salvarCarrinho(); actualizarCarrinhoCompleto(); actualizarCardProduto(id); mostrarToast(`${p.nome} adicionado!`); }
+    function removerDoCarrinho(id, tudo = false) { const idx = carrinho.findIndex(i => i.id === id); if (idx === -1) return; if (tudo || carrinho[idx].quantidade === 1) { carrinho.splice(idx, 1); } else { carrinho[idx].quantidade--; } salvarCarrinho(); actualizarCarrinhoCompleto(); actualizarCardProduto(id); }
+    function salvarCarrinho() { localStorage.setItem('carrinhoVendeMais', JSON.stringify(carrinho)); }
+    function actualizarCarrinhoCompleto() { const total = carrinho.reduce((s, i) => s + i.preco * i.quantidade, 0); const totalItens = carrinho.reduce((s, i) => s + i.quantidade, 0); document.getElementById('carrinho-container').innerHTML = gerarHTMLCarrinho(total, 'desktop'); document.getElementById('mobile-cart-content').innerHTML = gerarHTMLCarrinho(total, 'mobile'); document.getElementById('mobile-cart-count').innerText = totalItens; }
+    function actualizarCardProduto(id) { const card = document.querySelector(`#btn-add-${id}`)?.closest('.produto-card'); if (!card) return; const p = produtos.find(pr => pr.id === id); const item = carrinho.find(i => i.id === id); const stockAtual = p.stock - (item?.quantidade || 0); const emStock = stockAtual > 0; const stockEl = card.querySelector('.stock-display'); if (stockEl) stockEl.textContent = `Stock: ${stockAtual}`; const btn = card.querySelector(`#btn-add-${id}`); const icon = btn.querySelector('i'); btn.disabled = !emStock; if (!emStock) { btn.className = 'w-full text-white font-bold py-2 px-4 rounded-lg transition-colors bg-gray-400 cursor-not-allowed'; icon.className = 'fas fa-times-circle'; } else if (item) { btn.className = 'w-full text-white font-bold py-2 px-4 rounded-lg transition-colors bg-green-500 hover:bg-green-600'; icon.className = 'fas fa-check'; } else { btn.className = 'w-full text-white font-bold py-2 px-4 rounded-lg transition-colors bg-indigo-600 hover:bg-indigo-700'; icon.className = 'fas fa-cart-plus'; } }
+    function fecharPrevisao() { document.getElementById('preview-modal').classList.add('hidden'); }
+    function iniciarContadores() { if (countdownInterval) clearInterval(countdownInterval); countdownInterval = setInterval(actualizarTodosContadores, 1000); }
+    function mostrarCategorias() { const c = document.getElementById("categorias"), s = new Set(produtos.map(p => p.categoria)), a = ["Todos", ...Array.from(s).sort()]; c.innerHTML = a.map(cat => `<button class="whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold shadow-sm transition-colors ${cat === categoriaAtual ? 'bg-indigo-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'}" onclick="filtrarCategoria('${cat}')">${cat.charAt(0).toUpperCase() + cat.slice(1)}</button>`).join(""); }
+    function filtrarCategoria(cat) { categoriaAtual = cat; mostrarCategorias(); renderizarProdutos(); }
+    function gerarHTMLCarrinho(total, ctx) { let l = carrinho.length === 0 ? '<p class="text-center text-gray-500 my-10">Carrinho vazio.</p>' : carrinho.map(i => `<div class="flex items-center justify-between py-3 border-b"><div><p class="font-semibold">${i.nome}</p><p class="text-sm text-gray-600">${i.preco.toFixed(2)} MT</p></div><div class="flex items-center space-x-3"><button onclick="removerDoCarrinho(${i.id})" class="text-gray-500 hover:text-indigo-600 w-6 h-6">-</button><span>${i.quantidade}</span><button onclick="adicionarAoCarrinho(${i.id})" class="text-gray-500 hover:text-indigo-600 w-6 h-6">+</button><button onclick="removerDoCarrinho(${i.id}, true)" class="text-red-500"><i class="fas fa-trash-alt"></i></button></div></div>`).join(''); return `<h2 class="text-2xl font-bold mb-6 border-b pb-4">Seu Pedido</h2><div class="mb-6">${l}</div><div class="border-t pt-4 mb-6"><div class="flex justify-between items-center"><span>Total:</span><span class="text-2xl font-bold text-indigo-600">${total.toFixed(2)} MT</span></div></div><h3 class="text-xl font-bold mb-4">Entrega</h3><div class="space-y-4"><input type="text" id="${ctx}-nomeCliente" placeholder="Seu nome" class="w-full p-2 border rounded"><input type="tel" id="${ctx}-telefoneCliente" placeholder="Seu telefone" class="w-full p-2 border rounded"><input type="text" id="${ctx}-moradaCliente" placeholder="Sua morada" class="w-full p-2 border rounded"><button onclick="enviarPedido('${ctx}')" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded"><i class="fab fa-whatsapp"></i> Finalizar pedido</button></div>`; }
+    function enviarPedido(ctx) { const n = document.getElementById(`${ctx}-nomeCliente`).value.trim(), t = document.getElementById(`${ctx}-telefoneCliente`).value.trim(), m = document.getElementById(`${ctx}-moradaCliente`).value.trim(); if (!n || !t || !m || carrinho.length === 0) { mostrarToast("Preencha todos os campos e adicione produtos.", "error"); return; } let msg = `*Novo pedido:*\n\n*Itens:*\n`; carrinho.forEach(i => { msg += `• ${i.quantidade}x ${i.nome} - *${(i.preco * i.quantidade).toFixed(2)} MT*\n`; }); const total = carrinho.reduce((s, i) => s + i.preco * i.quantidade, 0); msg += `\n*Total: ${total.toFixed(2)} MT*\n\n*Entrega:*\n*Nome:* ${n}\n*Telefone:* ${t}\n*Morada:* ${m}\n`; window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank'); carrinho.forEach(i => actualizarCardProduto(i.id)); carrinho = []; salvarCarrinho(); actualizarCarrinhoCompleto(); mostrarToast("Pedido enviado!", "success"); }
+    function mostrarToast(msg, type = 'success') { const c = document.getElementById('toast-container'), t = document.createElement('div'); t.className = `toast-animation ${type === 'error' ? 'bg-red-500' : 'bg-gray-800'} text-white text-sm font-semibold py-3 px-5 rounded-lg shadow-xl`; t.textContent = msg; c.appendChild(t); setTimeout(() => t.remove(), 4000); }
+    function toggleMobileCart() { document.getElementById('mobile-cart-modal').classList.toggle('hidden'); }
   </script>
 </body>
 </html>
