@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra - Print Palette</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #d1d5db;
+            padding-top: 64px;
+            background-color: #111827;
+        }
+        .header-glass {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(55, 65, 81, 0.3);
+        }
+        .glassmorphism {
+            background: rgba(31, 41, 55, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(55, 65, 81, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        input, select, button {
+            color: #d1d5db;
+        }
+        input::placeholder, select {
+            color: #6b7280;
+        }
+        select option {
+            background: #1f2937;
+            color: #d1d5db;
+        }
+        @keyframes fadeInOut { 0%, 100% { opacity: 0; transform: translateY(20px); } 10%, 90% { opacity: 1; transform: translateY(0); } }
+        .toast-animation { animation: fadeInOut 4s ease-in-out forwards; }
+    </style>
+</head>
+<body class="text-gray-300">
+    <header id="main-header" class="header-glass fixed top-0 left-0 right-0 z-30">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0"><a href="index.html" class="text-2xl font-bold text-purple-400">Print Palette</a></div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="font-semibold text-purple-400 border-b-2 border-purple-400 pb-1 text-sm">Produtos</a>
+                    <a href="sobre.html" class="text-gray-400 hover:text-purple-400 transition-colors text-sm">Sobre Nós</a>
+                    <a href="contactos.html" class="text-gray-400 hover:text-purple-400 transition-colors text-sm">Contactos</a>
+                </nav>
+                <div class="md:hidden"><button id="mobile-menu-button" class="text-gray-400 hover:text-purple-400 focus:outline-none"><i class="fas fa-bars fa-lg"></i></button></div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden header-glass border-t border-gray-800"><nav class="flex flex-col items-center space-y-4 py-4"><a href="index.html" class="font-semibold text-purple-400">Produtos</a><a href="sobre.html" class="text-gray-400 hover:text-purple-400">Sobre Nós</a><a href="contactos.html" class="text-gray-400 hover:text-purple-400">Contactos</a></nav></div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-100 mb-6 text-center lg:text-left">Finalizar Compra</h1>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="glassmorphism rounded-xl p-6 h-fit">
+                <h2 class="text-2xl font-bold text-gray-100 mb-4">Resumo do Pedido</h2>
+                <div id="resumo-pedido">
+                    </div>
+            </div>
+
+            <div class="glassmorphism rounded-xl p-6 h-fit">
+                <h2 class="text-2xl font-bold text-gray-100 mb-4">Dados de Entrega</h2>
+                <div class="space-y-4">
+                    <input type="text" id="checkout-nomeCliente" placeholder="Seu nome" class="w-full p-3 border border-gray-700 bg-gray-800 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                    <input type="tel" id="checkout-telefoneCliente" placeholder="Seu telefone" class="w-full p-3 border border-gray-700 bg-gray-800 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                    <input type="text" id="checkout-moradaCliente" placeholder="Sua morada" class="w-full p-3 border border-gray-700 bg-gray-800 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                    
+                    <button type="button" onclick="getAndFillLocation('checkout')" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 rounded-lg shadow-lg text-sm transition-transform hover:scale-105 flex items-center justify-center">
+                        <i class="fas fa-map-marker-alt mr-2"></i> Usar a minha localização atual
+                    </button>
+                    <input type="hidden" id="checkout-moradaLatLng">
+                    
+                    <button onclick="enviarPedido('checkout')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow-lg text-sm transition-transform hover:scale-105">
+                        <i class="fab fa-whatsapp mr-2"></i> Finalizar via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50"></div>
+
+    <footer class="bg-gray-900 text-gray-400 mt-20">
+        <div class="container mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-2xl font-bold text-purple-400">Print Palette</h3>
+                    <p class="text-gray-500 text-sm">© 2025 Print Palette. Todos os direitos reservados.</p>
+                </div>
+                <nav class="flex space-x-6 mb-4 md:mb-0">
+                    <a href="index.html" class="hover:text-purple-400 transition-colors">Produtos</a>
+                    <a href="sobre.html" class="hover:text-purple-400 transition-colors">Sobre Nós</a>
+                    <a href="contactos.html" class="hover:text-purple-400 transition-colors">Contactos</a>
+                </nav>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fab fa-facebook-f fa-lg"></i></a>
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fab fa-whatsapp fa-lg"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const WHATSAPP_NUMBER = "258873735009";
+        let carrinho = JSON.parse(localStorage.getItem('carrinhoVendeMais')) || [];
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        function mostrarToast(msg, type = 'success') { 
+            const c = document.getElementById('toast-container'), t = document.createElement('div');
+            t.className = `toast-animation ${type === 'error' ? 'bg-red-500' : 'bg-gray-800'} text-white text-sm font-semibold py-2 px-4 rounded-lg shadow-xl`;
+            t.textContent = msg;
+            c.appendChild(t);
+            setTimeout(() => t.remove(), 4000);
+        }
+
+        function gerarResumoDoPedido() {
+            const resumoPedidoDiv = document.getElementById('resumo-pedido');
+            if (carrinho.length === 0) {
+                resumoPedidoDiv.innerHTML = '<p class="text-center text-gray-500 my-10 text-sm">O seu carrinho está vazio. <a href="index.html" class="text-purple-400 hover:underline">Voltar para a loja</a></p>';
+                return;
+            }
+
+            let listaItems = carrinho.map(i => `
+                <div class="flex justify-between py-2 border-b border-gray-700">
+                    <div>
+                        <p class="font-semibold text-sm text-gray-200">${i.nome}</p>
+                        <p class="text-xs text-purple-400">${i.preco.toFixed(2)} MT x ${i.quantidade}</p>
+                    </div>
+                    <span class="font-bold text-sm text-white">${(i.preco * i.quantidade).toFixed(2)} MT</span>
+                </div>
+            `).join('');
+
+            const total = carrinho.reduce((s, i) => s + i.preco * i.quantidade, 0);
+
+            resumoPedidoDiv.innerHTML = `
+                ${listaItems}
+                <div class="border-t border-gray-700 pt-3 mt-4">
+                    <div class="flex justify-between items-center text-lg">
+                        <span>Total:</span>
+                        <span class="text-xl font-bold text-purple-400">${total.toFixed(2)} MT</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function getAndFillLocation(ctx) {
+            const statusElement = document.getElementById(`${ctx}-moradaCliente`);
+            const latLngElement = document.getElementById(`${ctx}-moradaLatLng`);
+            
+            if (navigator.geolocation) {
+                statusElement.placeholder = "A obter a sua localização...";
+                statusElement.disabled = true;
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        
+                        latLngElement.value = `${lat},${lng}`;
+                        statusElement.value = `Latitude: ${lat}, Longitude: ${lng}`;
+                        statusElement.disabled = false;
+                        statusElement.placeholder = "Sua morada";
+                        mostrarToast("Localização obtida com sucesso!", "success");
+                    },
+                    (error) => {
+                        console.error("Erro na geolocalização:", error);
+                        statusElement.placeholder = "Sua morada";
+                        statusElement.disabled = false;
+                        statusElement.value = "";
+                        mostrarToast("Não foi possível obter a sua localização. Por favor, digite a sua morada.", "error");
+                    }
+                );
+            } else {
+                mostrarToast("Geolocalização não é suportada neste navegador.", "error");
+            }
+        }
+
+        function enviarPedido(ctx) {
+            const n = document.getElementById(`${ctx}-nomeCliente`).value.trim();
+            const t = document.getElementById(`${ctx}-telefoneCliente`).value.trim();
+            const m = document.getElementById(`${ctx}-moradaCliente`).value.trim();
+            const latLng = document.getElementById(`${ctx}-moradaLatLng`).value.trim();
+
+            if (!n || !t || !m || carrinho.length === 0) {
+                mostrarToast("Preencha todos os campos.", "error");
+                return;
+            }
+
+            let msg = `*Novo pedido - Print Palette:*\n\n*Itens do Pedido:*\n`;
+            carrinho.forEach(i => { msg += `• ${i.quantidade}x ${i.nome} - *${(i.preco * i.quantidade).toFixed(2)} MT*\n`; });
+            const total = carrinho.reduce((s, i) => s + i.preco * i.quantidade, 0);
+            msg += `\n*Total a Pagar: ${total.toFixed(2)} MT*\n\n*Dados de Entrega:*\n*Nome:* ${n}\n*Telefone:* ${t}\n*Morada:* ${m}\n`;
+            
+            if (latLng) {
+                msg += `\n*Coordenadas (Localização Exata):*\nhttp://maps.google.com/?q=${latLng}\n`;
+            }
+
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+            
+            localStorage.removeItem('carrinhoVendeMais');
+            carrinho = [];
+            
+            mostrarToast("Pedido enviado com sucesso!", "success");
+            
+            setTimeout(() => {
+                 window.location.href = "index.html";
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (carrinho.length === 0) {
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 1000);
+            } else {
+                gerarResumoDoPedido();
+            }
+        });
+    </script>
+</body>
+</html>
