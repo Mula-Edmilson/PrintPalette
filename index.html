@@ -117,7 +117,7 @@
     <footer class="bg-gray-900 text-gray-400 mt-20"><div class="container mx-auto px-4 py-8"><div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left"><div class="mb-4 md:mb-0"><h3 class="text-2xl font-bold text-purple-400">Print Palette</h3><p class="text-gray-500 text-sm">© 2025 Print Palette. Todos os direitos reservados.</p></div><nav class="flex space-x-6 mb-4 md:mb-0"><a href="index.html" class="hover:text-purple-400 transition-colors">Produtos</a><a href="sobre.html" class="hover:text-purple-400 transition-colors">Sobre Nós</a><a href="contactos.html" class="hover:text-purple-400 transition-colors">Contactos</a></nav><div class="flex space-x-4"><a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fab fa-facebook-f fa-lg"></i></a><a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fab fa-instagram fa-lg"></i></a><a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fab fa-whatsapp fa-lg"></i></a></div></div></div></footer>
 
     <script>
-        const TITULO_ORIGINAL = "Print Palette | Produtos";
+        const TITULO_ORIGINAL = "Print Palette | Produtos Gráficos";
         const DESCRICAO_ORIGINAL = "Damos vida às suas ideias com a máxima qualidade, desde impressões personalizadas a brindes promocionais.";
         const URL_ORIGINAL = "https://seudominio.com/index.html";
         const OG_IMAGE_ORIGINAL = "https://placehold.co/1200x630/1f2937/a78bfa?text=Print+Palette";
@@ -337,10 +337,80 @@
         function iniciarContadores() { if (countdownInterval) clearInterval(countdownInterval); countdownInterval = setInterval(actualizarTodosContadores, 1000); }
         function mostrarCategorias() { const c = document.getElementById("categorias"), s = new Set(produtos.map(p => p.categoria)), a = ["Todos", ...Array.from(s).sort()]; c.innerHTML = a.map(cat => `<button class="whitespace-nowrap px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-sm ${cat === categoriaAtual ? 'bg-purple-500 text-white' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}" onclick="filtrarCategoria('${cat}')">${cat.charAt(0).toUpperCase() + cat.slice(1)}</button>`).join(""); }
         function filtrarCategoria(cat) { categoriaAtual = cat; mostrarCategorias(); renderizarProdutos(); }
-        function gerarHTMLCarrinho(total, ctx) { let l = carrinho.length === 0 ? '<p class="text-center text-gray-500 my-10 text-sm">O seu carrinho está vazio.</p>' : carrinho.map(i => `<div class="flex items-center justify-between py-2 border-b border-gray-700"><div><p class="font-semibold text-sm text-gray-200">${i.nome}</p><p class="text-xs text-purple-400">${i.preco.toFixed(2)} MT</p></div><div class="flex items-center space-x-2"><button onclick="removerDoCarrinho(${i.id})" class="text-gray-400 hover:text-white w-5 h-5 rounded-full bg-gray-700">-</button><span class="text-sm">${i.quantidade}</span><button onclick="adicionarAoCarrinho(${i.id})" class="text-gray-400 hover:text-white w-5 h-5 rounded-full bg-gray-700">+</button><button onclick="removerDoCarrinho(${i.id}, true)" class="text-red-500 hover:text-red-400 text-xs"><i class="fas fa-trash-alt"></i></button></div></div>`).join(''); return `<h2 class="text-xl font-bold mb-4 border-b border-gray-700 pb-3 text-gray-100">Seu Pedido</h2><div class="mb-4">${l}</div><div class="border-t border-gray-700 pt-3 mb-4"><div class="flex justify-between items-center text-md"><span>Total:</span><span class="text-xl font-bold text-purple-400">${total.toFixed(2)} MT</span></div></div><h3 class="text-lg font-bold mb-3 text-gray-100">Finalizar Compra</h3><div class="space-y-3"><input type="text" id="${ctx}-nomeCliente" placeholder="Seu nome" class="w-full p-2 border border-gray-600 bg-gray-800 rounded-md text-sm focus:ring-1 focus:ring-purple-500"><input type="tel" id="${ctx}-telefoneCliente" placeholder="Seu telefone" class="w-full p-2 border border-gray-600 bg-gray-800 rounded-md text-sm focus:ring-1 focus:ring-purple-500"><input type="text" id="${ctx}-moradaCliente" placeholder="Sua morada" class="w-full p-2 border border-gray-600 bg-gray-800 rounded-md text-sm focus:ring-1 focus:ring-purple-500"><button onclick="enviarPedido('${ctx}')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-md shadow-lg text-sm transition-transform hover:scale-105"><i class="fab fa-whatsapp mr-2"></i> Finalizar via WhatsApp</button></div>`; }
-        function enviarPedido(ctx) { const n = document.getElementById(`${ctx}-nomeCliente`).value.trim(), t = document.getElementById(`${ctx}-telefoneCliente`).value.trim(), m = document.getElementById(`${ctx}-moradaCliente`).value.trim(); if (!n || !t || !m || carrinho.length === 0) { mostrarToast("Preencha todos os campos e adicione produtos.", "error"); return; } let msg = `*Novo pedido - Print Palette:*\n\n*Itens do Pedido:*\n`; carrinho.forEach(i => { msg += `• ${i.quantidade}x ${i.nome} - *${(i.preco * i.quantidade).toFixed(2)} MT*\n`; }); const total = carrinho.reduce((s, i) => s + i.preco * i.quantidade, 0); msg += `\n*Total a Pagar: ${total.toFixed(2)} MT*\n\n*Dados de Entrega:*\n*Nome:* ${n}\n*Telefone:* ${t}\n*Morada:* ${m}\n`; window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank'); carrinho.forEach(i => actualizarCardProduto(i.id)); carrinho = []; salvarCarrinho(); actualizarCarrinhoCompleto(); mostrarToast("Pedido enviado com sucesso!", "success"); }
+        function gerarHTMLCarrinho(total, ctx) { let l = carrinho.length === 0 ? '<p class="text-center text-gray-500 my-10 text-sm">O seu carrinho está vazio.</p>' : carrinho.map(i => `<div class="flex items-center justify-between py-2 border-b border-gray-700"><div><p class="font-semibold text-sm text-gray-200">${i.nome}</p><p class="text-xs text-purple-400">${i.preco.toFixed(2)} MT</p></div><div class="flex items-center space-x-2"><button onclick="removerDoCarrinho(${i.id})" class="text-gray-400 hover:text-white w-5 h-5 rounded-full bg-gray-700">-</button><span class="text-sm">${i.quantidade}</span><button onclick="adicionarAoCarrinho(${i.id})" class="text-gray-400 hover:text-white w-5 h-5 rounded-full bg-gray-700">+</button><button onclick="removerDoCarrinho(${i.id}, true)" class="text-red-500 hover:text-red-400 text-xs"><i class="fas fa-trash-alt"></i></button></div></div>`).join(''); return `<h2 class="text-xl font-bold mb-4 border-b border-gray-700 pb-3 text-gray-100">Seu Pedido</h2><div class="mb-4">${l}</div><div class="border-t border-gray-700 pt-3 mb-4"><div class="flex justify-between items-center text-md"><span>Total:</span><span class="text-xl font-bold text-purple-400">${total.toFixed(2)} MT</span></div></div><h3 class="text-lg font-bold mb-3 text-gray-100">Finalizar Compra</h3><div class="space-y-3">
+    <input type="text" id="${ctx}-nomeCliente" placeholder="Seu nome" class="w-full p-2 border border-gray-600 bg-gray-800 rounded-md text-sm focus:ring-1 focus:ring-purple-500">
+    <input type="tel" id="${ctx}-telefoneCliente" placeholder="Seu telefone" class="w-full p-2 border border-gray-600 bg-gray-800 rounded-md text-sm focus:ring-1 focus:ring-purple-500">
+    <input type="text" id="${ctx}-moradaCliente" placeholder="Sua morada" class="w-full p-2 border border-gray-600 bg-gray-800 rounded-md text-sm focus:ring-1 focus:ring-purple-500">
+    
+    <button type="button" onclick="getAndFillLocation('${ctx}')" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 rounded-md shadow-lg text-sm transition-transform hover:scale-105 flex items-center justify-center">
+        <i class="fas fa-map-marker-alt mr-2"></i> Usar a minha localização atual (Opcional)
+    </button>
+    <input type="hidden" id="${ctx}-moradaLatLng">
+    
+    <button onclick="enviarPedido('${ctx}')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-md shadow-lg text-sm transition-transform hover:scale-105">
+        <i class="fab fa-whatsapp mr-2"></i> Finalizar via WhatsApp
+    </button>
+</div>`; }
+        function enviarPedido(ctx) {
+            const n = document.getElementById(`${ctx}-nomeCliente`).value.trim();
+            const t = document.getElementById(`${ctx}-telefoneCliente`).value.trim();
+            const m = document.getElementById(`${ctx}-moradaCliente`).value.trim();
+            const latLng = document.getElementById(`${ctx}-moradaLatLng`).value.trim();
+
+            if (!n || !t || !m || carrinho.length === 0) {
+                mostrarToast("Preencha todos os campos e adicione produtos.", "error");
+                return;
+            }
+
+            let msg = `*Novo pedido - Print Palette:*\n\n*Itens do Pedido:*\n`;
+            carrinho.forEach(i => { msg += `• ${i.quantidade}x ${i.nome} - *${(i.preco * i.quantidade).toFixed(2)} MT*\n`; });
+            const total = carrinho.reduce((s, i) => s + i.preco * i.quantidade, 0);
+            msg += `\n*Total a Pagar: ${total.toFixed(2)} MT*\n\n*Dados de Entrega:*\n*Nome:* ${n}\n*Telefone:* ${t}\n*Morada:* ${m}\n`;
+            
+            if (latLng) {
+                msg += `\n*Coordenadas (Localização Exata):*\nhttps://www.google.com/maps/search/?api=1&query=${latLng}\n`;
+            }
+
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+            carrinho.forEach(i => actualizarCardProduto(i.id));
+            carrinho = [];
+            salvarCarrinho();
+            actualizarCarrinhoCompleto();
+            mostrarToast("Pedido enviado com sucesso!", "success");
+        }
         function mostrarToast(msg, type = 'success') { const c = document.getElementById('toast-container'), t = document.createElement('div'); t.className = `toast-animation ${type === 'error' ? 'bg-red-500' : 'bg-gray-800'} text-white text-sm font-semibold py-2 px-4 rounded-lg shadow-xl`; t.textContent = msg; c.appendChild(t); setTimeout(() => t.remove(), 4000); }
         function toggleMobileCart() { document.getElementById('mobile-cart-modal').classList.toggle('hidden'); }
-    </script>
+  function getAndFillLocation(ctx) {
+            const statusElement = document.getElementById(`${ctx}-moradaCliente`);
+            const latLngElement = document.getElementById(`${ctx}-moradaLatLng`);
+            
+            if (navigator.geolocation) {
+                statusElement.placeholder = "A obter a sua localização...";
+                statusElement.disabled = true;
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        
+                        latLngElement.value = `${lat},${lng}`;
+                        statusElement.value = `Latitude: ${lat}, Longitude: ${lng}`;
+                        statusElement.disabled = false;
+                        statusElement.placeholder = "Sua morada";
+                        mostrarToast("Localização obtida com sucesso!", "success");
+                    },
+                    (error) => {
+                        console.error("Erro na geolocalização:", error);
+                        statusElement.placeholder = "Sua morada";
+                        statusElement.disabled = false;
+                        statusElement.value = "";
+                        mostrarToast("Não foi possível obter a sua localização. Por favor, digite a sua morada.", "error");
+                    }
+                );
+            } else {
+                mostrarToast("Geolocalização não é suportada neste navegador.", "error");
+            }
+        }  
+  </script>
 </body>
 </html>
